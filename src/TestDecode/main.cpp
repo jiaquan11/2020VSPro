@@ -4,12 +4,14 @@ extern "C" {
 #include "libavformat/avformat.h"
 #include "libavcodec/avcodec.h"
 #include "libswscale/swscale.h"
+#include "libswresample/swresample.h"
 }
 using namespace std;
 #pragma comment(lib, "avformat.lib")
 #pragma comment(lib, "avutil.lib")
 #pragma comment(lib, "avcodec.lib")
 #pragma comment(lib, "swscale.lib")
+#pragma comment(lib, "swresample.lib")
 
 static double r2d(AVRational r) {
 	return r.den == 0 ? 0 : (double)r.num / (double)r.den;
@@ -162,6 +164,27 @@ int main(int argc, char *argv[]) {
 	//像素格式和尺寸转换的上下文
 	SwsContext *vctx = NULL;
 	unsigned char* rgb = NULL;
+
+	//音频重采样,上下文初始化
+	SwrContext* actx = swr_alloc();
+	actx = swr_alloc_set_opts(actx,
+			av_get_default_channel_layout(2),//输出格式
+			AV_SAMPLE_FMT_S16,				//输出样本格式
+			ac->sample_rate,				//输出采样率
+			av_get_default_channel_layout(ac->channels),//输入格式
+			ac->sample_fmt,
+			ac->sample_rate,
+			0, 0);
+	ret = swr_init(actx);
+	if (ret != 0) {
+		char buf[1024] = { 0 };
+		av_strerror(ret, buf, sizeof(buf) - 1);
+		cout << "swr_init failed: " << buf << endl;
+		getchar();
+		return -1;
+	}
+	unsigned char *pcm = NULL;
+
 	for (;;){
 		int ret = av_read_frame(ic, pkt);
 		if (ret != 0) {
@@ -259,6 +282,16 @@ int main(int argc, char *argv[]) {
 						lines);
 					cout << "sws_scale = " << ret << endl;
 				}
+			}
+			else {//音频
+				uint8_t* data[2] = { 0 };
+				if (!pcm) pcm = new uint8_t[frame->nb_samples * 2 * 2];
+				data[0] = pcm;
+				int len = swr_convert(actx,
+					data, frame->nb_samples,		//输出
+					(const uint8_t**)frame->data, frame->nb_samples  //输入
+				);
+				cout << "swr_convert = " << len << endl;
 			}
 		}
 		
