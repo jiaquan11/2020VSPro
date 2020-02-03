@@ -3,11 +3,13 @@
 extern "C" {
 #include "libavformat/avformat.h"
 #include "libavcodec/avcodec.h"
+#include "libswscale/swscale.h"
 }
 using namespace std;
 #pragma comment(lib, "avformat.lib")
 #pragma comment(lib, "avutil.lib")
 #pragma comment(lib, "avcodec.lib")
+#pragma comment(lib, "swscale.lib")
 
 static double r2d(AVRational r) {
 	return r.den == 0 ? 0 : (double)r.num / (double)r.den;
@@ -157,6 +159,9 @@ int main(int argc, char *argv[]) {
 	AVPacket* pkt = av_packet_alloc();
 	AVFrame* frame = av_frame_alloc();
 
+	//像素格式和尺寸转换的上下文
+	SwsContext *vctx = NULL;
+	unsigned char* rgb = NULL;
 	for (;;){
 		int ret = av_read_frame(ic, pkt);
 		if (ret != 0) {
@@ -223,6 +228,38 @@ int main(int argc, char *argv[]) {
 			ret = avcodec_receive_frame(cc, frame);
 			if (ret != 0) break;
 			cout << "recv frame " << frame->format << " " << frame->linesize[0] << endl;
+		
+			//视频
+			if (cc == vc) {
+				vctx = sws_getCachedContext(
+				vctx,//传NULL会新创建
+				frame->width, frame->height, //输入宽高
+				(AVPixelFormat)frame->format,//输入格式 YUV420P
+				frame->width, frame->height, //输出宽高
+				AV_PIX_FMT_RGBA,			//输出格式RGBA
+				SWS_BILINEAR,				//尺寸变化的算法
+				0,0,0);
+				/*if (vctx) {
+					cout << "像素格式尺寸转换上下文创建成功或者获取成功！" << endl;
+				}else {
+					cout << "像素格式尺寸转换上下文创建成功或者获取失败！" << endl;
+				}*/
+				if (vctx) {
+					if (!rgb) rgb = new unsigned char[frame->width*frame->height * 4];
+					uint8_t *data[2] = { 0 };
+					data[0] = rgb;
+					int lines[2] = { 0 };
+					lines[0] = frame->width * 4;
+					ret = sws_scale(vctx,
+						frame->data,	//输入数据
+						frame->linesize,//输入行大小
+						0,
+						frame->height,	//输入高度
+						data,			//输出数据和大小
+						lines);
+					cout << "sws_scale = " << ret << endl;
+				}
+			}
 		}
 		
 		//XSleep(500);
