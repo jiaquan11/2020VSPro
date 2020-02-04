@@ -4,10 +4,12 @@ using namespace std;
 
 extern "C" {
 #include "libavformat/avformat.h"
+#include "libavcodec/avcodec.h"
 }
 
 #pragma comment(lib, "avformat.lib")
 #pragma comment(lib, "avutil.lib")
+#pragma comment(lib, "avcodec.lib")
 
 static double r2d(AVRational r) {
 	return r.den == 0 ? 0 : (double)r.num / (double)r.den;
@@ -106,4 +108,29 @@ bool XDemux::Open(const char* url) {
 	mux.unlock();
 
 	return true;
+}
+
+//空间需要调用者释放,释放AVPacket对象空间和数据空间 av_packet_free();
+AVPacket* XDemux::Read() {
+	mux.lock();
+	if(!ic) {
+		mux.unlock();
+		return NULL;
+	}
+
+	AVPacket* pkt = av_packet_alloc();
+	//读取一帧，并分配空间
+	int ret = av_read_frame(ic, pkt);
+	if (ret != 0) {
+		mux.unlock();
+		av_packet_free(&pkt);
+		return NULL;
+	}
+	//pts转换为毫秒
+	pkt->pts = pkt->pts*(1000*(r2d(ic->streams[pkt->stream_index]->time_base)));
+	pkt->dts = pkt->dts*(1000 * (r2d(ic->streams[pkt->stream_index]->time_base)));
+
+	mux.unlock();
+	cout << pkt->pts << " " << flush;
+	return pkt;
 }
