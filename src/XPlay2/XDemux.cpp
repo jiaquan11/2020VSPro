@@ -139,6 +139,17 @@ AVCodecParameters *XDemux::CopyAPara() {
 	return pa;
 }
 
+bool XDemux::IsAudio(AVPacket* pkt) {
+	if (!pkt)
+		return false;
+
+	if (pkt->stream_index == videoStream) {
+		return false;
+	}
+
+	return true;
+}
+
 //空间需要调用者释放,释放AVPacket对象空间和数据空间 av_packet_free();
 AVPacket* XDemux::Read() {
 	mux.lock();

@@ -13,6 +13,8 @@ public:
 	//打开媒体文件，或者流媒体rtmp http rtsp
 	virtual bool Open(const char* url);
 
+	virtual bool IsAudio(AVPacket* pkt);
+
 	//空间需要调用者释放,释放AVPacket对象空间和数据空间 av_packet_free();
 	virtual AVPacket *Read();
 

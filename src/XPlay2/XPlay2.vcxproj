@@ -83,6 +83,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="XDecode.cpp" />
     <ClCompile Include="XDemux.cpp" />
     <ClCompile Include="XPlay2.cpp" />
   </ItemGroup>
@@ -112,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_XPlay2.h" />
+    <ClInclude Include="XDecode.h" />
     <ClInclude Include="XDemux.h" />
   </ItemGroup>
   <ItemGroup>
