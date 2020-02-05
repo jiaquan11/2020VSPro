@@ -35,7 +35,6 @@ XDemux::XDemux(){
 		isFirst = false;
 	}
 	dmux.unlock();
-	
 }
 
 XDemux::~XDemux(){
@@ -43,6 +42,10 @@ XDemux::~XDemux(){
 }
 
 bool XDemux::Open(const char* url) {
+	//Open操作之前先关闭可能泄露的资源
+	Close();
+
+	//参数设置
 	AVDictionary *opts = NULL;
 	//设置rtsp流以tcp协议打开
 	av_dict_set(&opts, "rtsp_transport", "tcp", 0);
@@ -85,7 +88,7 @@ bool XDemux::Open(const char* url) {
 	cout << "width: " << as->codecpar->width << endl;
 	cout << "height: " << as->codecpar->height << endl;
 	//帧率 fps 分数转换
-	cout << "video fps = " << r2d(as->avg_frame_rate) << endl;
+	cout << "video avg_frame_rate = " << r2d(as->avg_frame_rate) << endl;
 	cout << "video AVStream num: " << as->time_base.num << " den: " << as->time_base.den << endl;
 
 	//获取音频流
@@ -99,7 +102,7 @@ bool XDemux::Open(const char* url) {
 	//AVSampleFormat
 	cout << "channels = " << as->codecpar->channels << endl;
 	//帧率 fps 分数转换
-	cout << "audio fps = " << r2d(as->avg_frame_rate) << endl;;
+	cout << "audio avg_frame_rate = " << r2d(as->avg_frame_rate) << endl;;
 	cout << "audio AVStream num: " << as->time_base.num << " den: " << as->time_base.den << endl;
 
 	//一帧数据??单通道样本数
@@ -108,6 +111,32 @@ bool XDemux::Open(const char* url) {
 	mux.unlock();
 
 	return true;
+}
+
+//获取视频参数，返回的空间需要清理  avcodec_parameters_free()
+AVCodecParameters *XDemux::CopyVPara() {
+	mux.lock();
+	if (!ic) {
+		mux.unlock();
+		return NULL;
+	}
+	AVCodecParameters *pa = avcodec_parameters_alloc();
+	avcodec_parameters_copy(pa, ic->streams[videoStream]->codecpar);
+	mux.unlock();
+	return pa;
+}
+
+//获取音频参数，返回的空间需要清理 avcodec_parameters_free()
+AVCodecParameters *XDemux::CopyAPara() {
+	mux.lock();
+	if (!ic) {
+		mux.unlock();
+		return NULL;
+	}
+	AVCodecParameters *pa = avcodec_parameters_alloc();
+	avcodec_parameters_copy(pa, ic->streams[audioStream]->codecpar);
+	mux.unlock();
+	return pa;
 }
 
 //空间需要调用者释放,释放AVPacket对象空间和数据空间 av_packet_free();
@@ -133,4 +162,49 @@ AVPacket* XDemux::Read() {
 	mux.unlock();
 	cout << pkt->pts << " " << flush;
 	return pkt;
+}
+
+//seek位置 pos 0.0~1.0
+bool XDemux::Seek(double pos) {
+	mux.lock();
+	if (!ic) {
+		mux.unlock();
+		return false;
+	}
+	//清理读取缓存
+	avformat_flush(ic);
+
+	long long seekPos = 0;
+	seekPos = ic->streams[videoStream]->duration * pos;
+
+	int ret = av_seek_frame(ic, videoStream, seekPos, AVSEEK_FLAG_BACKWARD | AVSEEK_FLAG_FRAME);
+	mux.unlock();
+	if (ret < 0)
+		return false;
+	return true;
+}
+
+//清空读取缓存
+void XDemux::Clear() {
+	mux.lock();
+	if (!ic) {
+		mux.unlock();
+		return;
+	}
+	//清理读取缓存
+	avformat_flush(ic);
+	mux.unlock();
+}
+
+void XDemux::Close() {
+	mux.lock();
+	if (!ic) {
+		mux.unlock();
+		return;
+	}
+	avformat_close_input(&ic);
+	//媒体总时长(毫秒)
+	totalMs = 0;
+
+	mux.unlock();
 }

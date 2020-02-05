@@ -12,6 +12,14 @@ int main(int argc, char *argv[])
 
 	XDemux demux;
 	cout << "demux.Open = " << demux.Open(url) << endl;
+	demux.Read();
+	demux.Clear();
+	demux.Close();
+	cout << "demux.Open = " << demux.Open(url) << endl;
+	cout << "CopyVPara = " << demux.CopyVPara() << endl;
+	cout << "CopyAPara = " << demux.CopyAPara() << endl;
+	cout << "seek= " << demux.Seek(0.9) << endl;
+
 	for (;;){
 		AVPacket* pkt = demux.Read();
 		if (!pkt) break;

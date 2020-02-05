@@ -2,6 +2,7 @@
 #include <mutex>
 struct AVFormatContext;
 struct AVPacket;
+struct AVCodecParameters;
 
 class XDemux
 {
@@ -17,6 +18,20 @@ public:
 
 	//媒体总时长ms
 	int totalMs = 0;
+
+	//获取视频参数，返回的空间需要清理  avcodec_parameters_free()
+	AVCodecParameters *CopyVPara();
+
+	//获取音频参数，返回的空间需要清理 avcodec_parameters_free()
+	AVCodecParameters *CopyAPara();
+
+	//seek位置 pos 0.0~1.0
+	virtual bool Seek(double pos);
+
+	//清空读取缓存
+	virtual void Clear();
+
+	virtual void Close();
 
 protected:
 	std::mutex mux;
