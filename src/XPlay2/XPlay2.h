@@ -10,6 +10,6 @@ class XPlay2 : public QWidget
 public:
 	XPlay2(QWidget *parent = Q_NULLPTR);
 
-private:
+//private:
 	Ui::XPlay2Class ui;
 };

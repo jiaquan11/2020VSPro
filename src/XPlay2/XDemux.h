@@ -20,6 +20,8 @@ public:
 
 	//媒体总时长ms
 	int totalMs = 0;
+	int width = 0;
+	int height = 0;
 
 	//获取视频参数，返回的空间需要清理  avcodec_parameters_free()
 	AVCodecParameters *CopyVPara();

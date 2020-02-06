@@ -82,9 +82,11 @@ bool XDemux::Open(const char* url) {
 	cout << "==========================================" << endl;
 	cout << videoStream << " 视频信息" << endl;
 	AVStream* as = ic->streams[videoStream];
+	width = as->codecpar->width;
+	height = as->codecpar->height;
+	
 	cout << "codec_id = " << as->codecpar->codec_id << endl;
 	cout << "format = " << as->codecpar->format << endl;
-	
 	cout << "width: " << as->codecpar->width << endl;
 	cout << "height: " << as->codecpar->height << endl;
 	//帧率 fps 分数转换

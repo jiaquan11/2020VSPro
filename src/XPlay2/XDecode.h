@@ -24,6 +24,7 @@ public:
 	virtual AVFrame* Recv();
 
 	virtual void Clear();
+
 	virtual void Close();
 
 protected:
