@@ -107,12 +107,12 @@ void XVideoWidget::Repaint(AVFrame* frame) {
 		return;
 	}
 
-	//if (width == frame->linesize[0]) {//无需对齐
+	if (width == frame->linesize[0]) {//无需对齐
 		memcpy(datas[0], frame->data[0], width*height);
 		memcpy(datas[1], frame->data[1], width*height / 4);
 		memcpy(datas[2], frame->data[2], width*height / 4);
-	//}
-	/*else {//行对齐
+	}
+	else {//行对齐
 		for (int i = 0; i < height; i++) {//Y
 			memcpy(datas[0] + width * i, frame->data[0] + frame->linesize[0] * i, width);
 		}
@@ -122,11 +122,11 @@ void XVideoWidget::Repaint(AVFrame* frame) {
 		for (int i = 0; i < height/2; i++) {//V
 			memcpy(datas[2] + width/2 * i, frame->data[2] + frame->linesize[2] * i, width);
 		}
-	}*/
+	}
 
 	//行对齐问题
 	mux.unlock();
-	//av_frame_free(&frame);
+	av_frame_free(&frame);
 
 	//刷新显示
 	update();

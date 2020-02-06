@@ -4,9 +4,11 @@
 #include <QOpenGLFunctions>
 #include <QGLShaderProgram>
 #include <mutex>
+#include "IVideoCall.h"
+
 struct AVFrame;
 
-class XVideoWidget : public QOpenGLWidget, protected QOpenGLFunctions
+class XVideoWidget : public QOpenGLWidget, protected QOpenGLFunctions, public IVideoCall
 {
 	Q_OBJECT
 
@@ -14,7 +16,7 @@ public:
 	XVideoWidget(QWidget *parent);
 	~XVideoWidget();
 
-	void Init(int width, int height);
+	virtual void Init(int width, int height);
 	//不管成功与否，都释放frame空间
 	virtual void Repaint(AVFrame* frame);
 

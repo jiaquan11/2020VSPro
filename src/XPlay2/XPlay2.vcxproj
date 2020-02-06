@@ -95,6 +95,7 @@
     <ClCompile Include="XDemux.cpp" />
     <ClCompile Include="XPlay2.cpp" />
     <ClCompile Include="XResample.cpp" />
+    <ClCompile Include="XVideoThread.cpp" />
     <ClCompile Include="XVideoWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -123,11 +124,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_XPlay2.h" />
+    <ClInclude Include="IVideoCall.h" />
     <ClInclude Include="XAudioPlay.h" />
     <ClInclude Include="XAudioThread.h" />
     <ClInclude Include="XDecode.h" />
     <ClInclude Include="XDemux.h" />
     <ClInclude Include="XResample.h" />
+    <ClInclude Include="XVideoThread.h" />
     <CustomBuild Include="XVideoWidget.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing XVideoWidget.h...</Message>
