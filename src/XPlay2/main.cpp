@@ -4,19 +4,30 @@
 #include "XDecode.h"
 #include "XResample.h"
 #include <QThread>
+#include "XAudioPlay.h"
+#include "XAudioThread.h"
 
 #include <iostream>
 using namespace std;
 
 class TestThread : public QThread {
 public:
+	XAudioThread at;
+
 	void Init() {
 		char* url = "testvideo1.mp4";
 		cout << "demux.Open = " << demux.Open(url) << endl;
 		cout << "vdecode.Open() =" << vdecode.Open(demux.CopyVPara()) << endl; 
-		cout << "adecode.Open() =" << adecode.Open(demux.CopyAPara()) << endl;
+		//cout << "adecode.Open() =" << adecode.Open(demux.CopyAPara()) << endl;
 
-		cout << "resample.Open = " << resample.Open(demux.CopyAPara()) << endl;
+		//cout << "resample.Open = " << resample.Open(demux.CopyAPara()) << endl;
+		//XAudioPlay::Get()->channels = demux.channels;
+		//XAudioPlay::Get()->sampleRate = demux.sampleRate;
+
+		//cout << "XAudioPlay::Get()->Open() = " << XAudioPlay::Get()->Open() << endl;
+
+		cout << "at.Open() = " << at.Open(demux.CopyAPara(), demux.sampleRate, demux.channels) << endl;
+		at.start();
 	}
 
 	unsigned char* pcm = new unsigned char[1024 * 1024];
@@ -24,9 +35,19 @@ public:
 		for (;;) {
 			AVPacket* pkt = demux.Read();
 			if (demux.IsAudio(pkt)) {
-				adecode.Send(pkt);
+				at.Push(pkt);
+
+				/*adecode.Send(pkt);
 				AVFrame* frame = adecode.Recv();
-				cout<<"Resample: "<<resample.Resample(frame, pcm)<<" ";
+				int len = resample.Resample(frame, pcm);
+				cout<<"Resample: "<<len<<" ";
+				while (len > 0) {
+					if (XAudioPlay::Get()->GetFree() >= len){
+						XAudioPlay::Get()->Write(pcm, len);
+						break;
+					}
+					msleep(1);
+				}*/
 			}else {
 				vdecode.Send(pkt);
 				AVFrame* frame = vdecode.Recv();

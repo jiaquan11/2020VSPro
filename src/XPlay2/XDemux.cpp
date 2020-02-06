@@ -98,6 +98,9 @@ bool XDemux::Open(const char* url) {
 	cout << "==========================================" << endl;
 	cout << audioStream << " ÒôÆµÐÅÏ¢" << endl;
 	as = ic->streams[audioStream];
+	sampleRate = as->codecpar->sample_rate;
+	channels = as->codecpar->channels;
+
 	cout << "codec_id = " << as->codecpar->codec_id << endl;
 	cout << "format = " << as->codecpar->format << endl;
 	cout << "sample_rate = " << as->codecpar->sample_rate << endl;

@@ -17,7 +17,7 @@ public:
 	virtual bool Open(AVCodecParameters *para);
 
 	//发送到解码线程，不管成功与否都释放pkt空间(对象和媒体内容)
-	virtual bool Send(AVPacket* pkt);
+	virtual bool Send(AVPacket* pkt); 
 
 	//获取解码数据，一次send可能需要多次Recv,获取缓冲中的数据Send NULL 再多次Recv
 	//每次复制一份，由调用者释放av_frame_free
