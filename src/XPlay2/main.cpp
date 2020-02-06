@@ -2,6 +2,7 @@
 #include <QtWidgets/QApplication>
 #include "XDemux.h"
 #include "XDecode.h"
+#include "XResample.h"
 #include <QThread>
 
 #include <iostream>
@@ -14,14 +15,18 @@ public:
 		cout << "demux.Open = " << demux.Open(url) << endl;
 		cout << "vdecode.Open() =" << vdecode.Open(demux.CopyVPara()) << endl; 
 		cout << "adecode.Open() =" << adecode.Open(demux.CopyAPara()) << endl;
+
+		cout << "resample.Open = " << resample.Open(demux.CopyAPara()) << endl;
 	}
 
+	unsigned char* pcm = new unsigned char[1024 * 1024];
 	void run() {
 		for (;;) {
 			AVPacket* pkt = demux.Read();
 			if (demux.IsAudio(pkt)) {
-				//adecode.Send(pkt);
-				//AVFrame* frame = adecode.Recv();
+				adecode.Send(pkt);
+				AVFrame* frame = adecode.Recv();
+				cout<<"Resample: "<<resample.Resample(frame, pcm)<<" ";
 			}else {
 				vdecode.Send(pkt);
 				AVFrame* frame = vdecode.Recv();
@@ -38,6 +43,7 @@ public:
 	//½âÂë²âÊÔ
 	XDecode vdecode;
 	XDecode adecode;
+	XResample resample;
 
 	XVideoWidget *video;
 };
