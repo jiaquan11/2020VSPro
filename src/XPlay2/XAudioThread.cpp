@@ -23,6 +23,9 @@ XAudioThread::~XAudioThread(){
 
 bool XAudioThread::Open(AVCodecParameters* para, int sampleRate, int channels) {
 	if (!para) return false;
+
+	Clear();
+
 	amux.lock();
 	pts = 0;
 

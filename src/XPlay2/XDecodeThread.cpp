@@ -44,3 +44,15 @@ AVPacket* XDecodeThread::Pop() {
 	mux.unlock();
 	return pkt;
 }
+
+void XDecodeThread::Clear() {
+	mux.lock();
+	decode->Clear();
+	while (!packs.empty()){
+		AVPacket* pkt = packs.front();
+		XFreePacket(&pkt);
+
+		packs.pop_front();
+	}
+	mux.unlock();
+}

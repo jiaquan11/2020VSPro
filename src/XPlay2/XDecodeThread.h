@@ -21,6 +21,9 @@ public:
 	//取出一帧数据，并出栈，如果没有返回NULL
 	virtual AVPacket* Pop();
 
+	//清理队列
+	virtual void Clear();
+
 protected:
 	std::list<AVPacket*> packs;
 	std::mutex mux;
