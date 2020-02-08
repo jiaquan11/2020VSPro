@@ -78,6 +78,9 @@ int XResample::Resample(AVFrame* indata, unsigned char* d) {
 		data, indata->nb_samples,		// ‰≥ˆ
 		(const uint8_t**)indata->data, indata->nb_samples  // ‰»Î
 	);
+
+	av_frame_free(&indata);
+
 	if (ret <= 0) 
 		return ret;
 

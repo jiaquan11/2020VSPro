@@ -21,6 +21,9 @@ public:
 	//创建对象并打开
 	virtual bool Open(const char* url, IVideoCall* call);
 
+	//关闭线程，清理资源
+	virtual void Close();
+
 protected:
 	std::mutex mux;
 

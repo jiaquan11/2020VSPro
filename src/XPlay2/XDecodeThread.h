@@ -23,6 +23,8 @@ public:
 
 	//清理队列
 	virtual void Clear();
+	//清理资源，停止线程
+	virtual void Close();
 
 protected:
 	std::list<AVPacket*> packs;

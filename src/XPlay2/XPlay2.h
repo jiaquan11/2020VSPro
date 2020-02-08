@@ -9,6 +9,7 @@ class XPlay2 : public QWidget
 
 public:
 	XPlay2(QWidget *parent = Q_NULLPTR);
+	~XPlay2();
 
 public slots:
 	void openFile();

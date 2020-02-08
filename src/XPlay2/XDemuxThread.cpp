@@ -53,6 +53,21 @@ bool XDemuxThread::Open(const char* url, IVideoCall* call) {
 	return ret;
 }
 
+//关闭线程，清理资源
+void XDemuxThread::Close() {
+	isExit = true;
+	wait();
+
+	if (vt) vt->Close();
+	if (at) at->Close();
+	mux.lock();
+	delete vt;
+	delete at;
+	vt = NULL;
+	at = NULL;
+	mux.unlock();
+}
+
 //启动所有线程
 void XDemuxThread::Start() {
 	mux.lock();

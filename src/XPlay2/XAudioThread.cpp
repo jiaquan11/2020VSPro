@@ -53,6 +53,26 @@ bool XAudioThread::Open(AVCodecParameters* para, int sampleRate, int channels) {
 	return ret; 
 }
 
+//停止线程，清理资源
+void XAudioThread::Close() {
+	XDecodeThread::Close();
+
+	if (res) {
+		res->Close();
+		amux.lock();
+		delete res;
+		res = NULL;
+		amux.unlock();
+	}
+
+	if (ap) {
+		ap->Close();
+		amux.lock();
+		ap = NULL;
+		amux.unlock();
+	}
+}
+
 void XAudioThread::run() {
 	unsigned char* pcm = new unsigned char[1024*1024*10];
 	while (!isExit) {

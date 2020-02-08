@@ -13,6 +13,10 @@ XPlay2::XPlay2(QWidget *parent)
 	dt.Start();
 }
 
+XPlay2::~XPlay2() {
+	dt.Close();
+}
+
 void XPlay2::openFile() {
 	//选择文件
 	QString name = QFileDialog::getOpenFileName(this, QString::fromLocal8Bit("选择视频文件"));

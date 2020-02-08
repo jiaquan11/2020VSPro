@@ -14,6 +14,21 @@ XDecodeThread::~XDecodeThread(){
 	wait();
 }
 
+//清理资源，停止线程
+void XDecodeThread::Close() {
+	Clear();
+
+	//等待线程退出
+	isExit = true;
+	wait();
+
+	mux.lock();
+	decode->Close();
+	delete decode;
+	decode = NULL;
+	mux.unlock();
+}
+
 void XDecodeThread::Push(AVPacket* pkt) {
 	if (!pkt)
 		return;
