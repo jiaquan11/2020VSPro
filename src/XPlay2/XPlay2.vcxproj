@@ -92,6 +92,7 @@
     <ClCompile Include="XAudioPlay.cpp" />
     <ClCompile Include="XAudioThread.cpp" />
     <ClCompile Include="XDecode.cpp" />
+    <ClCompile Include="XDecodeThread.cpp" />
     <ClCompile Include="XDemux.cpp" />
     <ClCompile Include="XDemuxThread.cpp" />
     <ClCompile Include="XPlay2.cpp" />
@@ -129,6 +130,7 @@
     <ClInclude Include="XAudioPlay.h" />
     <ClInclude Include="XAudioThread.h" />
     <ClInclude Include="XDecode.h" />
+    <ClInclude Include="XDecodeThread.h" />
     <ClInclude Include="XDemux.h" />
     <ClInclude Include="XDemuxThread.h" />
     <ClInclude Include="XResample.h" />
