@@ -108,7 +108,6 @@ AVFrame* XDecode::Recv() {
 	AVFrame* frame = av_frame_alloc();
 	int ret = avcodec_receive_frame(avc, frame);
 	mux.unlock();
-
 	if (ret != 0) {
 		av_frame_free(&frame);
 		return NULL;

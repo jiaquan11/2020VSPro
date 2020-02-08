@@ -75,9 +75,11 @@ public:
 	XVideoWidget *video = NULL;
 };
 
+#include "XDemuxThread.h"
+
 int main(int argc, char *argv[])
 {
-	TestThread tt;
+	//TestThread tt;
 
 	QApplication a(argc, argv);
 	XPlay2 w;
@@ -85,9 +87,13 @@ int main(int argc, char *argv[])
 
 	//³õÊ¼»¯gl´°¿Ú
 	//w.ui.video->Init(tt.demux.width, tt.demux.height);
-	tt.video = w.ui.video;
-	tt.Init();
-	tt.start();
+	//tt.video = w.ui.video;
+	//tt.Init();
+	//tt.start();
+
+	XDemuxThread dt;
+	dt.Open("testvideo1.mp4", w.ui.video);
+	dt.Start();
 
 	return a.exec();
 }
