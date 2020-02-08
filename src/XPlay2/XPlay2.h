@@ -10,6 +10,9 @@ class XPlay2 : public QWidget
 public:
 	XPlay2(QWidget *parent = Q_NULLPTR);
 
-//private:
+public slots:
+	void openFile();
+
+private:
 	Ui::XPlay2Class ui;
 };

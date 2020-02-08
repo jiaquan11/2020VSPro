@@ -56,6 +56,16 @@ bool XDemuxThread::Open(const char* url, IVideoCall* call) {
 //启动所有线程
 void XDemuxThread::Start() {
 	mux.lock();
+	if (!demux) {
+		demux = new XDemux();
+	}
+	if (!vt) {
+		vt = new XVideoThread();
+	}
+	if (!at) {
+		at = new XAudioThread();
+	}
+
 	//启动当前线程
 	QThread::start();
 	if (vt) vt->start();
@@ -71,6 +81,12 @@ void XDemuxThread::run() {
 			msleep(5);
 			continue;
 		}
+
+		//音视频同步
+		if (vt && at) {
+			vt->synpts = at->pts;
+		}
+
 		AVPacket *pkt = demux->Read();
 		if (!pkt) {
 			mux.unlock();
@@ -89,5 +105,7 @@ void XDemuxThread::run() {
 		}
 
 		mux.unlock();
+
+		msleep(1);//延迟1毫秒，避免读取太快，导致音视频同步不及时
 	}
 }

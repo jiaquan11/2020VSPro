@@ -91,9 +91,9 @@ int main(int argc, char *argv[])
 	//tt.Init();
 	//tt.start();
 
-	XDemuxThread dt;
-	dt.Open("testvideo1.mp4", w.ui.video);
-	dt.Start();
+	//XDemuxThread dt;
+	//dt.Open("testvideo1.mp4", w.ui.video);
+	//dt.Start();
 
 	return a.exec();
 }

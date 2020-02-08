@@ -213,7 +213,7 @@ void XVideoWidget::paintGL() {
 	glUniform1i(unis[2], 2);
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	qDebug() << "paintGL";
+	//qDebug() << "paintGL";
 
 	mux.unlock();
 }
