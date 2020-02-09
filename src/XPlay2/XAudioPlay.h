@@ -23,5 +23,7 @@ public:
 	virtual bool Write(const unsigned char* data, int datasize) = 0;
 
 	virtual int GetFree() = 0;
+
+	virtual void SetPause(bool isPause) = 0;
 };
 

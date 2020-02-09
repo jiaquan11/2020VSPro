@@ -26,8 +26,8 @@
   <widget class="QPushButton" name="openFile">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>600</y>
+     <x>270</x>
+     <y>710</y>
      <width>93</width>
      <height>28</height>
     </rect>
@@ -52,6 +52,19 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
+  <widget class="QPushButton" name="isPlay">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>710</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>播放</string>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -59,6 +72,9 @@
    <class>XVideoWidget</class>
    <extends>QOpenGLWidget</extends>
    <header>XVideoWidget.h</header>
+   <slots>
+    <slot>PlayOrPause()</slot>
+   </slots>
   </customwidget>
  </customwidgets>
  <resources>
@@ -72,8 +88,8 @@
    <slot>openFile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>156</x>
-     <y>612</y>
+     <x>346</x>
+     <y>722</y>
     </hint>
     <hint type="destinationlabel">
      <x>293</x>
@@ -81,8 +97,25 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>isPlay</sender>
+   <signal>clicked()</signal>
+   <receiver>XPlay2Class</receiver>
+   <slot>PlayOrPause()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>458</x>
+     <y>713</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>598</x>
+     <y>-105</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>openFile()</slot>
+  <slot>PlayOrPause()</slot>
  </slots>
 </ui>

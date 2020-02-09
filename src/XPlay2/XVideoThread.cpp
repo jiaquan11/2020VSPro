@@ -40,9 +40,21 @@ bool XVideoThread::Open(AVCodecParameters* para, IVideoCall* call, int width, in
 	return ret;
 }
 
+void XVideoThread::SetPause(bool isPause) {
+	vmux.lock();
+	this->isPause = isPause;
+	vmux.unlock();
+}
+
 void XVideoThread::run() {
 	while (!isExit) {
 		vmux.lock();
+		if (this->isPause) {
+			vmux.unlock();
+			msleep(5);
+			continue;
+		}
+
 		//“Ù ”∆µÕ¨≤Ω
 		cout << "audio synpts: " << synpts << " video pts: " << decode->pts << endl;
 		if ((synpts > 0) && (synpts < decode->pts)) {

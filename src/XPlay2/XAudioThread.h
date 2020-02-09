@@ -25,6 +25,9 @@ public:
 
 	void run();
 
+	bool isPause = false;
+	void SetPause(bool isPause);
+
 protected:
 	std::mutex amux;
 

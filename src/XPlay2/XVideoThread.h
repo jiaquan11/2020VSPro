@@ -24,6 +24,9 @@ public:
 	//同步时间，由外部传入
 	long long synpts = 0;
 
+	bool isPause = false;
+	void SetPause(bool isPause);
+
 protected:
 	std::mutex vmux;
 	IVideoCall* call = NULL;

@@ -16,6 +16,7 @@ public:
 	bool isExit = false;
 	long long pts = 0;
 	long long totalMs = 0;
+	bool isPause = false;
 
 	//启动所有线程
 	virtual void Start();
@@ -25,6 +26,8 @@ public:
 
 	//关闭线程，清理资源
 	virtual void Close();
+
+	void SetPause(bool isPause);
 
 protected:
 	std::mutex mux;

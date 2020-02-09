@@ -68,6 +68,22 @@ public:
 		return pts;
 	}
 
+	virtual void SetPause(bool isPause) {
+		mux.lock();
+		
+		if (!output) {
+			mux.unlock();
+			return;
+		}
+
+		if (isPause) {
+			output->suspend();
+		}else {
+			output->resume();
+		}
+		mux.unlock();
+	}
+
 	//≤•∑≈“Ù∆µ
 	virtual bool Write(const unsigned char* data, int datasize) {
 		if (!data || (datasize <= 0))
