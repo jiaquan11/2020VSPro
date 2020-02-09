@@ -11,6 +11,9 @@ public:
 	XPlay2(QWidget *parent = Q_NULLPTR);
 	~XPlay2();
 
+	//定时器 滑动条显示
+	void timerEvent(QTimerEvent* e);
+
 public slots:
 	void openFile();
 

@@ -48,6 +48,8 @@ bool XDemuxThread::Open(const char* url, IVideoCall* call) {
 		cout << "at->Open failed" << endl;
 	}
 
+	totalMs = demux->totalMs;
+
 	mux.unlock();
 	cout << "XDemuxThread::Open ret: " << ret << endl;
 	return ret;
@@ -99,6 +101,7 @@ void XDemuxThread::run() {
 
 		//音视频同步
 		if (vt && at) {
+			pts = at->pts;//这里赋值是用于进度条显示的
 			vt->synpts = at->pts;
 		}
 

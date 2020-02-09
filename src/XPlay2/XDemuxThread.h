@@ -14,6 +14,8 @@ public:
 	virtual ~XDemuxThread();
 	
 	bool isExit = false;
+	long long pts = 0;
+	long long totalMs = 0;
 
 	//启动所有线程
 	virtual void Start();
