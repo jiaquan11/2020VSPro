@@ -27,9 +27,8 @@ public:
 	virtual void Close();
 
 protected:
+	XDecode *decode = NULL;
 	std::list<AVPacket*> packs;
 	std::mutex mux;
-
-	XDecode *decode = NULL;
 };
 

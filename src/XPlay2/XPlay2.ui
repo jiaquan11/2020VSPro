@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>918</width>
-    <height>842</height>
+    <width>990</width>
+    <height>881</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -36,7 +36,7 @@
     <string>打开文件</string>
    </property>
   </widget>
-  <widget class="QSlider" name="playPos">
+  <widget class="XSlider" name="playPos">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -76,6 +76,11 @@
     <slot>PlayOrPause()</slot>
    </slots>
   </customwidget>
+  <customwidget>
+   <class>XSlider</class>
+   <extends>QSlider</extends>
+   <header>XSlider.h</header>
+  </customwidget>
  </customwidgets>
  <resources>
   <include location="XPlay2.qrc"/>
@@ -109,7 +114,39 @@
     </hint>
     <hint type="destinationlabel">
      <x>598</x>
-     <y>-105</y>
+     <y>0</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>playPos</sender>
+   <signal>sliderPressed()</signal>
+   <receiver>XPlay2Class</receiver>
+   <slot>SliderPress()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>62</x>
+     <y>809</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>83</x>
+     <y>-115</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>playPos</sender>
+   <signal>sliderReleased()</signal>
+   <receiver>XPlay2Class</receiver>
+   <slot>SliderRelease()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>708</x>
+     <y>811</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>897</x>
+     <y>808</y>
     </hint>
    </hints>
   </connection>
@@ -117,5 +154,7 @@
  <slots>
   <slot>openFile()</slot>
   <slot>PlayOrPause()</slot>
+  <slot>SliderPress()</slot>
+  <slot>SliderRelease()</slot>
  </slots>
 </ui>

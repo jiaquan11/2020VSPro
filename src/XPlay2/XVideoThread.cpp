@@ -34,7 +34,6 @@ bool XVideoThread::Open(AVCodecParameters* para, IVideoCall* call, int width, in
 		ret = false;
 	}
 
-	
 	cout << "XVideoThread open ret: " << ret << endl;
 
 	return ret;
@@ -44,6 +43,37 @@ void XVideoThread::SetPause(bool isPause) {
 	vmux.lock();
 	this->isPause = isPause;
 	vmux.unlock();
+}
+
+//解码pts,如果接收到的解码数据pts >= seekpts return true  并且显示画面
+bool XVideoThread::RepaintPts(AVPacket* pkt, long long seekpts) {
+	vmux.lock();
+
+	bool ret = decode->Send(pkt);
+	if (!ret) {
+		vmux.unlock();
+		return true;//表示结束解码
+	}
+		
+	AVFrame* frame = decode->Recv();
+	if (!frame) {
+		vmux.unlock();
+		return false;
+	}
+		
+	//到达位置
+	if (decode->pts >= seekpts) {
+		if (call) 
+			call->Repaint(frame);
+
+		vmux.unlock();
+		return true;
+	}
+
+	XFreeFrame(&frame);
+
+	vmux.unlock();
+	return false;
 }
 
 void XVideoThread::run() {
@@ -56,7 +86,7 @@ void XVideoThread::run() {
 		}
 
 		//音视频同步
-		cout << "audio synpts: " << synpts << " video pts: " << decode->pts << endl;
+		//cout << "audio synpts: " << synpts << " video pts: " << decode->pts << endl;
 		if ((synpts > 0) && (synpts < decode->pts)) {
 			vmux.unlock();
 			msleep(1);

@@ -4,7 +4,6 @@ using namespace std;
 
 extern "C" {
 #include "libavformat/avformat.h"
-#include "libavcodec/avcodec.h"
 }
 
 #pragma comment(lib, "avformat.lib")
@@ -71,7 +70,7 @@ bool XDemux::Open(const char* url) {
 	//获取流信息
 	ret = avformat_find_stream_info(ic, 0);
 	//总时长，毫秒
-	totalMs = ic->duration / (AV_TIME_BASE / 1000);
+	this->totalMs = ic->duration / (AV_TIME_BASE / 1000);
 	cout << "totalMs: " << totalMs << endl;
 
 	//打印视频流的详细信息
@@ -153,6 +152,28 @@ bool XDemux::IsAudio(AVPacket* pkt) {
 	}
 
 	return true;
+}
+
+//只读视频，音频丢弃空间释放
+AVPacket* XDemux::ReadVideo() {
+	mux.lock();
+	if (!ic) {//容错
+		mux.unlock();
+		return NULL;
+	}
+	mux.unlock();
+
+	AVPacket* pkt = NULL;
+	//防止阻塞
+	for (int i = 0; i < 20; i++) {
+		pkt = Read();
+		if (!pkt) break;
+		if (pkt->stream_index == videoStream) {
+			break;
+		}
+		av_packet_free(&pkt);
+	}
+	return pkt;
 }
 
 //空间需要调用者释放,释放AVPacket对象空间和数据空间 av_packet_free();

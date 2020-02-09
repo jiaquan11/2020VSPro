@@ -15,9 +15,15 @@ XDecode::~XDecode(){
 }
 
 void XFreePacket(AVPacket** pkt) {
-	if (pkt || *pkt) return;
+	if (!pkt || !(*pkt)) return;
 
 	av_packet_free(pkt);
+}
+
+void XFreeFrame(AVFrame** frame) {
+	if (!frame || !(*frame)) return;
+
+	av_frame_free(frame);
 }
 
 //´ò¿ª½âÂëÆ÷

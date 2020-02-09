@@ -53,8 +53,17 @@ bool XAudioThread::Open(AVCodecParameters* para, int sampleRate, int channels) {
 	return ret; 
 }
 
+void XAudioThread::Clear() {
+
+	XDecodeThread::Clear();
+	amux.lock();
+	if (ap) ap->Clear();
+	amux.unlock();
+}
+
 //停止线程，清理资源
 void XAudioThread::Close() {
+
 	XDecodeThread::Close();
 
 	if (res) {

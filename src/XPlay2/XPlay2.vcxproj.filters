@@ -88,6 +88,15 @@
     <ClCompile Include="XDecodeThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_XSlider.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_XSlider.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="XSlider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="XPlay2.h">
@@ -100,6 +109,9 @@
       <Filter>Resource Files</Filter>
     </CustomBuild>
     <CustomBuild Include="XVideoWidget.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="XSlider.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>

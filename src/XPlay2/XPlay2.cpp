@@ -21,6 +21,8 @@ XPlay2::~XPlay2() {
 
 //定时器 滑动条显示  重载定时器方法
 void XPlay2::timerEvent(QTimerEvent* e) {
+	if (isSliderPress) return;
+
 	long long total = dt.totalMs;
 	if (total > 0) {
 		double pos = (double)dt.pts / (double)total;
@@ -74,4 +76,16 @@ void XPlay2::PlayOrPause() {
 	bool isPause = !dt.isPause;
 	SetPause(isPause);
 	dt.SetPause(isPause);
+}
+
+void XPlay2::SliderPress() {
+	qDebug() << "SliderPress" << endl;
+	isSliderPress = true;
+}
+
+void XPlay2::SliderRelease() {
+	isSliderPress = false;
+	double pos = 0.0;
+	pos = (double)ui.playPos->value() / (double)ui.playPos->maximum();
+	dt.Seek(pos);
 }

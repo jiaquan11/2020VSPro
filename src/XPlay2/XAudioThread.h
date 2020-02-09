@@ -20,6 +20,8 @@ public:
 	//不管成功与否都清理
 	virtual bool Open(AVCodecParameters* para, int sampleRate, int channels);
 
+	virtual void Clear();
+
 	//停止线程，清理资源
 	virtual void Close();
 

@@ -19,6 +19,9 @@ public:
 	//不管成功与否都清理
 	virtual bool Open(AVCodecParameters* para, IVideoCall* call, int width, int height);
 	
+	//解码pts,如果接收到的解码数据pts >= seekpts return true  并且显示画面
+	virtual bool RepaintPts(AVPacket* pkt, long long seekpts);
+
 	void run();
 
 	//同步时间，由外部传入

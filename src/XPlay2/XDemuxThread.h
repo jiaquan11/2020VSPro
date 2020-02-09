@@ -24,8 +24,11 @@ public:
 	//创建对象并打开
 	virtual bool Open(const char* url, IVideoCall* call);
 
+	virtual void Clear();
 	//关闭线程，清理资源
 	virtual void Close();
+
+	virtual void Seek(double pos);
 
 	void SetPause(bool isPause);
 
