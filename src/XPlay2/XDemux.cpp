@@ -1,4 +1,4 @@
-#include "XDemux.h"
+ï»¿#include "XDemux.h"
 #include <iostream>
 using namespace std;
 
@@ -26,10 +26,10 @@ XDemux::XDemux(){
 	
 	dmux.lock();
 	if (isFirst) {
-		//³õÊ¼»¯·â×°¿â
+		//åˆå§‹åŒ–å°è£…åº“
 		av_register_all();
 
-		//³õÊ¼»¯ÍøÂç¿â,(¿ÉÒÔ´ò¿ªrtsp, rtmp, httpĞ­ÒéµÄÁ÷Ã½ÌåÊÓÆµ)
+		//åˆå§‹åŒ–ç½‘ç»œåº“,(å¯ä»¥æ‰“å¼€rtsp, rtmp, httpåè®®çš„æµåª’ä½“è§†é¢‘)
 		avformat_network_init();
 		isFirst = false;
 	}
@@ -41,22 +41,22 @@ XDemux::~XDemux(){
 }
 
 bool XDemux::Open(const char* url) {
-	//Open²Ù×÷Ö®Ç°ÏÈ¹Ø±Õ¿ÉÄÜĞ¹Â¶µÄ×ÊÔ´
+	//Openæ“ä½œä¹‹å‰å…ˆå…³é—­å¯èƒ½æ³„éœ²çš„èµ„æº
 	Close();
 
-	//²ÎÊıÉèÖÃ
+	//å‚æ•°è®¾ç½®
 	AVDictionary *opts = NULL;
-	//ÉèÖÃrtspÁ÷ÒÔtcpĞ­Òé´ò¿ª
+	//è®¾ç½®rtspæµä»¥tcpåè®®æ‰“å¼€
 	av_dict_set(&opts, "rtsp_transport", "tcp", 0);
-	//ÍøÂçÑÓÊ±Ê±¼ä
+	//ç½‘ç»œå»¶æ—¶æ—¶é—´
 	av_dict_set(&opts, "max_delay", "500", 0);
 
 	mux.lock();
 	int ret = avformat_open_input(
 		&ic,
 		url,
-		NULL, //NULL±íÊ¾×Ô¶¯Ñ¡Ôñ½â·âÆ÷
-		&opts);//²ÎÊıÉèÖÃ£¬±ÈÈçrtspµÄÑÓÊ±Ê±¼ä
+		NULL, //NULLè¡¨ç¤ºè‡ªåŠ¨é€‰æ‹©è§£å°å™¨
+		&opts);//å‚æ•°è®¾ç½®ï¼Œæ¯”å¦‚rtspçš„å»¶æ—¶æ—¶é—´
 	if (ret != 0) {
 		mux.unlock();
 
@@ -67,19 +67,19 @@ bool XDemux::Open(const char* url) {
 	}
 	cout << "open " << url << " success!" << endl;
 
-	//»ñÈ¡Á÷ĞÅÏ¢
+	//è·å–æµä¿¡æ¯
 	ret = avformat_find_stream_info(ic, 0);
-	//×ÜÊ±³¤£¬ºÁÃë
+	//æ€»æ—¶é•¿ï¼Œæ¯«ç§’
 	this->totalMs = ic->duration / (AV_TIME_BASE / 1000);
 	cout << "totalMs: " << totalMs << endl;
 
-	//´òÓ¡ÊÓÆµÁ÷µÄÏêÏ¸ĞÅÏ¢
+	//æ‰“å°è§†é¢‘æµçš„è¯¦ç»†ä¿¡æ¯
 	av_dump_format(ic, 0, url, 0);
 
-	//»ñÈ¡ÊÓÆµÁ÷
+	//è·å–è§†é¢‘æµ
 	videoStream = av_find_best_stream(ic, AVMEDIA_TYPE_VIDEO, -1, -1, NULL, 0);
 	cout << "==========================================" << endl;
-	cout << videoStream << " ÊÓÆµĞÅÏ¢" << endl;
+	cout << videoStream << " è§†é¢‘ä¿¡æ¯" << endl;
 	AVStream* as = ic->streams[videoStream];
 	width = as->codecpar->width;
 	height = as->codecpar->height;
@@ -88,14 +88,14 @@ bool XDemux::Open(const char* url) {
 	cout << "format = " << as->codecpar->format << endl;
 	cout << "width: " << as->codecpar->width << endl;
 	cout << "height: " << as->codecpar->height << endl;
-	//Ö¡ÂÊ fps ·ÖÊı×ª»»
+	//å¸§ç‡ fps åˆ†æ•°è½¬æ¢
 	cout << "video avg_frame_rate = " << r2d(as->avg_frame_rate) << endl;
 	cout << "video AVStream num: " << as->time_base.num << " den: " << as->time_base.den << endl;
 
-	//»ñÈ¡ÒôÆµÁ÷
+	//è·å–éŸ³é¢‘æµ
 	audioStream = av_find_best_stream(ic, AVMEDIA_TYPE_AUDIO, -1, -1, NULL, 0);
 	cout << "==========================================" << endl;
-	cout << audioStream << " ÒôÆµĞÅÏ¢" << endl;
+	cout << audioStream << " éŸ³é¢‘ä¿¡æ¯" << endl;
 	as = ic->streams[audioStream];
 	sampleRate = as->codecpar->sample_rate;
 	channels = as->codecpar->channels;
@@ -105,11 +105,11 @@ bool XDemux::Open(const char* url) {
 	cout << "sample_rate = " << as->codecpar->sample_rate << endl;
 	//AVSampleFormat
 	cout << "channels = " << as->codecpar->channels << endl;
-	//Ö¡ÂÊ fps ·ÖÊı×ª»»
+	//å¸§ç‡ fps åˆ†æ•°è½¬æ¢
 	cout << "audio avg_frame_rate = " << r2d(as->avg_frame_rate) << endl;;
 	cout << "audio AVStream num: " << as->time_base.num << " den: " << as->time_base.den << endl;
 
-	//Ò»Ö¡Êı¾İ??µ¥Í¨µÀÑù±¾Êı
+	//ä¸€å¸§æ•°æ®??å•é€šé“æ ·æœ¬æ•°
 	cout << "frame_size: " << as->codecpar->frame_size << endl;
 
 	mux.unlock();
@@ -117,7 +117,7 @@ bool XDemux::Open(const char* url) {
 	return true;
 }
 
-//»ñÈ¡ÊÓÆµ²ÎÊı£¬·µ»ØµÄ¿Õ¼äĞèÒªÇåÀí  avcodec_parameters_free()
+//è·å–è§†é¢‘å‚æ•°ï¼Œè¿”å›çš„ç©ºé—´éœ€è¦æ¸…ç†  avcodec_parameters_free()
 AVCodecParameters *XDemux::CopyVPara() {
 	mux.lock();
 	if (!ic) {
@@ -130,7 +130,7 @@ AVCodecParameters *XDemux::CopyVPara() {
 	return pa;
 }
 
-//»ñÈ¡ÒôÆµ²ÎÊı£¬·µ»ØµÄ¿Õ¼äĞèÒªÇåÀí avcodec_parameters_free()
+//è·å–éŸ³é¢‘å‚æ•°ï¼Œè¿”å›çš„ç©ºé—´éœ€è¦æ¸…ç† avcodec_parameters_free()
 AVCodecParameters *XDemux::CopyAPara() {
 	mux.lock();
 	if (!ic) {
@@ -154,17 +154,17 @@ bool XDemux::IsAudio(AVPacket* pkt) {
 	return true;
 }
 
-//Ö»¶ÁÊÓÆµ£¬ÒôÆµ¶ªÆú¿Õ¼äÊÍ·Å
+//åªè¯»è§†é¢‘ï¼ŒéŸ³é¢‘ä¸¢å¼ƒç©ºé—´é‡Šæ”¾
 AVPacket* XDemux::ReadVideo() {
 	mux.lock();
-	if (!ic) {//Èİ´í
+	if (!ic) {//å®¹é”™
 		mux.unlock();
 		return NULL;
 	}
 	mux.unlock();
 
 	AVPacket* pkt = NULL;
-	//·ÀÖ¹×èÈû
+	//é˜²æ­¢é˜»å¡
 	for (int i = 0; i < 20; i++) {
 		pkt = Read();
 		if (!pkt) break;
@@ -176,7 +176,7 @@ AVPacket* XDemux::ReadVideo() {
 	return pkt;
 }
 
-//¿Õ¼äĞèÒªµ÷ÓÃÕßÊÍ·Å,ÊÍ·ÅAVPacket¶ÔÏó¿Õ¼äºÍÊı¾İ¿Õ¼ä av_packet_free();
+//ç©ºé—´éœ€è¦è°ƒç”¨è€…é‡Šæ”¾,é‡Šæ”¾AVPacketå¯¹è±¡ç©ºé—´å’Œæ•°æ®ç©ºé—´ av_packet_free();
 AVPacket* XDemux::Read() {
 	mux.lock();
 	if(!ic) {
@@ -185,14 +185,14 @@ AVPacket* XDemux::Read() {
 	}
 
 	AVPacket* pkt = av_packet_alloc();
-	//¶ÁÈ¡Ò»Ö¡£¬²¢·ÖÅä¿Õ¼ä
+	//è¯»å–ä¸€å¸§ï¼Œå¹¶åˆ†é…ç©ºé—´
 	int ret = av_read_frame(ic, pkt);
 	if (ret != 0) {
 		mux.unlock();
 		av_packet_free(&pkt);
 		return NULL;
 	}
-	//pts×ª»»ÎªºÁÃë
+	//ptsè½¬æ¢ä¸ºæ¯«ç§’
 	pkt->pts = pkt->pts*(1000*(r2d(ic->streams[pkt->stream_index]->time_base)));
 	pkt->dts = pkt->dts*(1000 * (r2d(ic->streams[pkt->stream_index]->time_base)));
 
@@ -201,14 +201,14 @@ AVPacket* XDemux::Read() {
 	return pkt;
 }
 
-//seekÎ»ÖÃ pos 0.0~1.0
+//seekä½ç½® pos 0.0~1.0
 bool XDemux::Seek(double pos) {
 	mux.lock();
 	if (!ic) {
 		mux.unlock();
 		return false;
 	}
-	//ÇåÀí¶ÁÈ¡»º´æ
+	//æ¸…ç†è¯»å–ç¼“å­˜
 	avformat_flush(ic);
 
 	long long seekPos = 0;
@@ -221,14 +221,14 @@ bool XDemux::Seek(double pos) {
 	return true;
 }
 
-//Çå¿Õ¶ÁÈ¡»º´æ
+//æ¸…ç©ºè¯»å–ç¼“å­˜
 void XDemux::Clear() {
 	mux.lock();
 	if (!ic) {
 		mux.unlock();
 		return;
 	}
-	//ÇåÀí¶ÁÈ¡»º´æ
+	//æ¸…ç†è¯»å–ç¼“å­˜
 	avformat_flush(ic);
 	mux.unlock();
 }
@@ -240,7 +240,7 @@ void XDemux::Close() {
 		return;
 	}
 	avformat_close_input(&ic);
-	//Ã½Ìå×ÜÊ±³¤(ºÁÃë)
+	//åª’ä½“æ€»æ—¶é•¿(æ¯«ç§’)
 	totalMs = 0;
 
 	mux.unlock();

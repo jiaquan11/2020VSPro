@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
@@ -17,28 +17,28 @@ public:
 	~XVideoWidget();
 
 	virtual void Init(int width, int height);
-	//²»¹Ü³É¹¦Óë·ñ£¬¶¼ÊÍ·Åframe¿Õ¼ä
+	//ä¸ç®¡æˆåŠŸä¸å¦ï¼Œéƒ½é‡Šæ”¾frameç©ºé—´
 	virtual void Repaint(AVFrame* frame);
 
 protected:
-	//Ë¢ĞÂÏÔÊ¾
+	//åˆ·æ–°æ˜¾ç¤º
 	void paintGL();
-	//³õÊ¼»¯
+	//åˆå§‹åŒ–
 	void initializeGL();
-	//´°¿Ú³ß´ç±ä»¯
+	//çª—å£å°ºå¯¸å˜åŒ–
 	void resizeGL(int width, int height);
 
 private:
 	std::mutex mux;
 
-	//shader³ÌĞò
+	//shaderç¨‹åº
 	QGLShaderProgram program;
-	//shaderÖĞµÄyuv±äÁ¿µØÖ·
+	//shaderä¸­çš„yuvå˜é‡åœ°å€
 	GLuint unis[3] = { 0 };
-	//openglµÄtextureµÄµØÖ·
+	//openglçš„textureçš„åœ°å€
 	GLuint texs[3] = { 0 };
 
-	//²ÄÖÊÄÚ´æ¿Õ¼ä
+	//æè´¨å†…å­˜ç©ºé—´
 	unsigned char* datas[3] = { 0 };
 
 	int width = 240;

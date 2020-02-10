@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <QtWidgets/QWidget>
 #include "ui_XPlay2.h"
@@ -11,13 +11,13 @@ public:
 	XPlay2(QWidget *parent = Q_NULLPTR);
 	~XPlay2();
 
-	//¶¨Ê±Æ÷ »¬¶¯ÌõÏÔÊ¾
+	//å®šæ—¶å™¨ æ»‘åŠ¨æ¡æ˜¾ç¤º
 	void timerEvent(QTimerEvent* e);
 
-	//´°¿Ú³ß´ç±ä»¯
+	//çª—å£å°ºå¯¸å˜åŒ–
 	void resizeEvent(QResizeEvent* e);
 
-	//Ë«»÷È«ÆÁ
+	//åŒå‡»å…¨å±
 	void mouseDoubleClickEvent(QMouseEvent* e);
 
 	void SetPause(bool isPause);

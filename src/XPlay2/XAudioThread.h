@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <QThread>
 #include <mutex>
 #include <list>
@@ -14,15 +14,15 @@ public:
 	XAudioThread();
 	virtual ~XAudioThread();
 
-	//µ±Ç°ÒôÆµ²¥·ÅµÄpts
+	//å½“å‰éŸ³é¢‘æ’­æ”¾çš„pts
 	long long pts = 0;
 
-	//²»¹Ü³É¹¦Óë·ñ¶¼ÇåÀí
+	//ä¸ç®¡æˆåŠŸä¸å¦éƒ½æ¸…ç†
 	virtual bool Open(AVCodecParameters* para, int sampleRate, int channels);
 
 	virtual void Clear();
 
-	//Í£Ö¹Ïß³Ì£¬ÇåÀí×ÊÔ´
+	//åœæ­¢çº¿ç¨‹ï¼Œæ¸…ç†èµ„æº
 	virtual void Close();
 
 	void run();

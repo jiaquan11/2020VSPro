@@ -1,4 +1,4 @@
-#include "XDecode.h"
+ï»¿#include "XDecode.h"
 #include <iostream>
 using namespace std;
 
@@ -26,15 +26,15 @@ void XFreeFrame(AVFrame** frame) {
 	av_frame_free(frame);
 }
 
-//´ò¿ª½âÂëÆ÷
+//æ‰“å¼€è§£ç å™¨
 bool XDecode::Open(AVCodecParameters *para) {
 	if (!para) 
 		return false;
 	
-	//´ò¿ªÖ®Ç°ÏÈ¹Ø±Õ½âÂëÆ÷×ÊÔ´
+	//æ‰“å¼€ä¹‹å‰å…ˆå…³é—­è§£ç å™¨èµ„æº
 	Close();
 
-	//ÕÒµ½½âÂëÆ÷
+	//æ‰¾åˆ°è§£ç å™¨
 	AVCodec *codec = avcodec_find_decoder(para->codec_id);
 	if (!codec) {
 		avcodec_parameters_free(&para);
@@ -44,16 +44,16 @@ bool XDecode::Open(AVCodecParameters *para) {
 	cout << "find the AVCodec " << para->codec_id << endl;
 
 	mux.lock();
-	//½âÂëÆ÷´ò¿ª
-	//´´½¨½âÂëÆ÷ÉÏÏÂÎÄ
+	//è§£ç å™¨æ‰“å¼€
+	//åˆ›å»ºè§£ç å™¨ä¸Šä¸‹æ–‡
 	avc = avcodec_alloc_context3(codec);
-	//ÅäÖÃ½âÂëÆ÷ÉÏÏÂÎÄ²ÎÊı
+	//é…ç½®è§£ç å™¨ä¸Šä¸‹æ–‡å‚æ•°
 	avcodec_parameters_to_context(avc, para);
 	avcodec_parameters_free(&para);
 
-	//°ËÏß³Ì½âÂë
+	//å…«çº¿ç¨‹è§£ç 
 	avc->thread_count = 8;
-	//´ò¿ª½âÂëÆ÷ÉÏÏÂÎÄ
+	//æ‰“å¼€è§£ç å™¨ä¸Šä¸‹æ–‡
 	int ret = avcodec_open2(avc, 0, 0);
 	if (ret != 0) {
 		avcodec_free_context(&avc);
@@ -68,15 +68,16 @@ bool XDecode::Open(AVCodecParameters *para) {
 	return true;
 }
 
+//æ¸…ç†è§£ç ç¼“å†²
 void XDecode::Clear() {
 	mux.lock();
-	//ÇåÀí½âÂë»º³å
 	if (avc) {
 		avcodec_flush_buffers(avc);
 	}
 	mux.unlock();
 }
 
+//å…³é—­è§£ç å™¨
 void XDecode::Close() {
 	mux.lock();
 	if (avc) {
@@ -87,9 +88,9 @@ void XDecode::Close() {
 	mux.unlock();
 }
 
-//·¢ËÍµ½½âÂëÏß³Ì£¬²»¹Ü³É¹¦Óë·ñ¶¼ÊÍ·Åpkt¿Õ¼ä(¶ÔÏóºÍÃ½ÌåÄÚÈİ)
+//å‘é€åˆ°è§£ç çº¿ç¨‹ï¼Œä¸ç®¡æˆåŠŸä¸å¦éƒ½é‡Šæ”¾pktç©ºé—´(å¯¹è±¡å’Œåª’ä½“å†…å®¹)
 bool XDecode::Send(AVPacket* pkt) {
-	//Èİ´í´¦Àí
+	//å®¹é”™å¤„ç†
 	if (!pkt || (pkt->size <= 0) || !pkt->data) {
 		return false;
 	}
@@ -110,8 +111,8 @@ bool XDecode::Send(AVPacket* pkt) {
 	return true;
 }
 
-//»ñÈ¡½âÂëÊı¾İ£¬Ò»´Îsend¿ÉÄÜĞèÒª¶à´ÎRecv,»ñÈ¡»º³åÖĞµÄÊı¾İSend NULL ÔÙ¶à´ÎRecv
-//Ã¿´Î¸´ÖÆÒ»·İ£¬ÓÉµ÷ÓÃÕßÊÍ·Åav_frame_free
+//è·å–è§£ç æ•°æ®ï¼Œä¸€æ¬¡sendå¯èƒ½éœ€è¦å¤šæ¬¡Recv,è·å–ç¼“å†²ä¸­çš„æ•°æ®Send NULL å†å¤šæ¬¡Recv
+//æ¯æ¬¡å¤åˆ¶ä¸€ä»½ï¼Œç”±è°ƒç”¨è€…é‡Šæ”¾av_frame_free
 AVFrame* XDecode::Recv() {
 	mux.lock();
 	if (!avc) {
@@ -126,6 +127,6 @@ AVFrame* XDecode::Recv() {
 		return NULL;
 	}
 	//cout << "["<<frame->linesize[0] << "] " << flush;
-	pts = frame->pts;//½âÂëÊ±¼ä´Á
+	pts = frame->pts;//è§£ç æ—¶é—´æˆ³
 	return frame;
 }

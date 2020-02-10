@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 struct AVCodecParameters;
 struct AVFrame;
 struct SwrContext;
@@ -13,12 +13,12 @@ public:
 
 	int outFormat = 1;//AV_SAMPLE_FMT_S16
 
-	//Êä³ö²ÎÊıºÍÊäÈë²ÎÊıÒ»ÖÂ³ıÁË²ÉÑù¸ñÊ½£¬Êä³öÎªS16 »áÊÍ·Åpara
+	//è¾“å‡ºå‚æ•°å’Œè¾“å…¥å‚æ•°ä¸€è‡´é™¤äº†é‡‡æ ·æ ¼å¼ï¼Œè¾“å‡ºä¸ºS16 ä¼šé‡Šæ”¾para
 	virtual bool Open(AVCodecParameters *para, bool isClearPara = false);
 
 	virtual void Close();
 
-	//·µ»ØÖØ²ÉÑùºóµÄ´óĞ¡,²»¹Ü³É¹¦Óë·ñ¶¼ÊÍ·Åindata¿Õ¼ä
+	//è¿”å›é‡é‡‡æ ·åçš„å¤§å°,ä¸ç®¡æˆåŠŸä¸å¦éƒ½é‡Šæ”¾indataç©ºé—´
 	virtual int Resample(AVFrame* indata, unsigned char* data);
 
 protected:

@@ -1,4 +1,4 @@
-#include "XVideoThread.h"
+ï»¿#include "XVideoThread.h"
 #include "XDecode.h"
 #include <iostream>
 using namespace std;
@@ -11,7 +11,7 @@ XVideoThread::~XVideoThread(){
 
 }
 
-//²»¹Ü³É¹¦Óë·ñ¶¼ÇåÀí
+//ä¸ç®¡æˆåŠŸä¸å¦éƒ½æ¸…ç†
 bool XVideoThread::Open(AVCodecParameters* para, IVideoCall* call, int width, int height) {
 	if (!para) return false;
 	
@@ -21,7 +21,7 @@ bool XVideoThread::Open(AVCodecParameters* para, IVideoCall* call, int width, in
 
 	synpts = 0;
 
-	//³õÊ¼»¯ÏÔÊ¾´°¿Ú
+	//åˆå§‹åŒ–æ˜¾ç¤ºçª—å£
 	this->call = call;
 	if (call) {
 		call->Init(width, height);
@@ -45,14 +45,14 @@ void XVideoThread::SetPause(bool isPause) {
 	vmux.unlock();
 }
 
-//½âÂëpts,Èç¹û½ÓÊÕµ½µÄ½âÂëÊı¾İpts >= seekpts return true  ²¢ÇÒÏÔÊ¾»­Ãæ
+//è§£ç pts,å¦‚æœæ¥æ”¶åˆ°çš„è§£ç æ•°æ®pts >= seekpts return true  å¹¶ä¸”æ˜¾ç¤ºç”»é¢
 bool XVideoThread::RepaintPts(AVPacket* pkt, long long seekpts) {
 	vmux.lock();
 
 	bool ret = decode->Send(pkt);
 	if (!ret) {
 		vmux.unlock();
-		return true;//±íÊ¾½áÊø½âÂë
+		return true;//è¡¨ç¤ºç»“æŸè§£ç 
 	}
 		
 	AVFrame* frame = decode->Recv();
@@ -61,7 +61,7 @@ bool XVideoThread::RepaintPts(AVPacket* pkt, long long seekpts) {
 		return false;
 	}
 		
-	//µ½´ïÎ»ÖÃ
+	//åˆ°è¾¾ä½ç½®
 	if (decode->pts >= seekpts) {
 		if (call) 
 			call->Repaint(frame);
@@ -85,7 +85,7 @@ void XVideoThread::run() {
 			continue;
 		}
 
-		//ÒôÊÓÆµÍ¬²½
+		//éŸ³è§†é¢‘åŒæ­¥
 		//cout << "audio synpts: " << synpts << " video pts: " << decode->pts << endl;
 		if ((synpts > 0) && (synpts < decode->pts)) {
 			vmux.unlock();
@@ -101,11 +101,11 @@ void XVideoThread::run() {
 			msleep(1);
 			continue;
 		}
-		//Ò»´Îsend,¶à´Îrecv
+		//ä¸€æ¬¡send,å¤šæ¬¡recv
 		while (!isExit) {
 			AVFrame* frame = decode->Recv();
 			if (!frame) break;
-			//ÏÔÊ¾ÊÓÆµ
+			//æ˜¾ç¤ºè§†é¢‘
 			if (call) {
 				call->Repaint(frame);
 			}

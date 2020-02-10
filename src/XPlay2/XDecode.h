@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <mutex>
 
 struct AVCodecParameters;
@@ -16,17 +16,17 @@ public:
 	virtual ~XDecode();
 
 	bool isAudio = false;
-	//µ±Ç°½âÂëµ½µÄpts
+	//å½“å‰è§£ç åˆ°çš„pts
 	long long pts = 0;
 
-	//´ò¿ª½âÂëÆ÷,²»¹Ü³É¹¦Óë·ñ¶¼ÊÍ·Åpara¿Õ¼ä
+	//æ‰“å¼€è§£ç å™¨,ä¸ç®¡æˆåŠŸä¸å¦éƒ½é‡Šæ”¾paraç©ºé—´
 	virtual bool Open(AVCodecParameters *para);
 
-	//·¢ËÍµ½½âÂëÏß³Ì£¬²»¹Ü³É¹¦Óë·ñ¶¼ÊÍ·Åpkt¿Õ¼ä(¶ÔÏóºÍÃ½ÌåÄÚÈİ)
+	//å‘é€åˆ°è§£ç çº¿ç¨‹ï¼Œä¸ç®¡æˆåŠŸä¸å¦éƒ½é‡Šæ”¾pktç©ºé—´(å¯¹è±¡å’Œåª’ä½“å†…å®¹)
 	virtual bool Send(AVPacket* pkt); 
 
-	//»ñÈ¡½âÂëÊı¾İ£¬Ò»´Îsend¿ÉÄÜĞèÒª¶à´ÎRecv,»ñÈ¡»º³åÖĞµÄÊı¾İSend NULL ÔÙ¶à´ÎRecv
-	//Ã¿´Î¸´ÖÆÒ»·İ£¬ÓÉµ÷ÓÃÕßÊÍ·Åav_frame_free
+	//è·å–è§£ç æ•°æ®ï¼Œä¸€æ¬¡sendå¯èƒ½éœ€è¦å¤šæ¬¡Recv,è·å–ç¼“å†²ä¸­çš„æ•°æ®Send NULL å†å¤šæ¬¡Recv
+	//æ¯æ¬¡å¤åˆ¶ä¸€ä»½ï¼Œç”±è°ƒç”¨è€…é‡Šæ”¾av_frame_free
 	virtual AVFrame* Recv();
 
 	virtual void Clear();

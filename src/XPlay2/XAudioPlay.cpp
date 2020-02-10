@@ -1,4 +1,4 @@
-#include "XAudioPlay.h"
+﻿#include "XAudioPlay.h"
 #include <QAudioFormat>
 #include <QAudioOutput>
 #include <mutex>
@@ -10,7 +10,7 @@ public:
 	QIODevice *io = NULL;
 	std::mutex mux;
 
-	//����Ƶ����
+	//打开音频播放
 	virtual bool Open() {
 		Close();
 
@@ -24,7 +24,7 @@ public:
 		
 		mux.lock();
 		output = new QAudioOutput(fmt);
-		io = output->start();//��ʼ����
+		io = output->start();//开始播放
 		mux.unlock();
 		if (io) {
 			return true;
@@ -32,6 +32,7 @@ public:
 		return false;
 	}
 
+	//清除Qt音频设备中的数据缓存
 	virtual void Clear() {
 		mux.lock();
 		if (io) {
@@ -40,6 +41,7 @@ public:
 		mux.unlock();
 	}
 
+	//关闭Qt音频播放设备
 	virtual void Close() {
 		mux.lock();
 		if (io) {
@@ -54,6 +56,7 @@ public:
 		mux.unlock();
 	}
 
+	//获取Qt音频设备中缓存还未播放的数据，转换为播放时长
 	virtual long long GetNoPlayMs() {
 		mux.lock();
 		if (!output) {
@@ -62,9 +65,9 @@ public:
 		}
 
 		long long pts = 0;
-		//��δ���ŵ��ֽ���
+		//还未播放的字节数
 		double size = output->bufferSize() - output->bytesFree();
-		//һ����Ƶ�ֽڴ�С
+		//一秒音频字节大小
 		double secSize = sampleRate * (sampleSize / 8) * channels;
 		if (secSize <= 0) {
 			pts = 0;
@@ -76,6 +79,7 @@ public:
 		return pts;
 	}
 
+	//暂停和恢复Qt音频播放
 	virtual void SetPause(bool isPause) {
 		mux.lock();
 		
@@ -92,7 +96,7 @@ public:
 		mux.unlock();
 	}
 
-	//������Ƶ
+	//播放音频
 	virtual bool Write(const unsigned char* data, int datasize) {
 		if (!data || (datasize <= 0))
 			return false;
@@ -110,6 +114,7 @@ public:
 		return true;
 	}
 
+	//获取Qt音频设备中剩余未填充空间
 	virtual int GetFree() {
 		mux.lock();
 		if (!output) {

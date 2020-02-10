@@ -1,4 +1,4 @@
-#include "XDemuxThread.h"
+ï»¿#include "XDemuxThread.h"
 #include "XDemux.h"
 #include "XVideoThread.h"
 #include "XAudioThread.h"
@@ -43,12 +43,12 @@ bool XDemuxThread::Open(const char* url, IVideoCall* call) {
 		cout << "demux->Open(url) failed!" << endl;
 		return false;
 	}
-	//´ò¿ªÊÓÆµ½âÂëÆ÷ºÍ´¦ÀíÏß³Ì
+	//æ‰“å¼€è§†é¢‘è§£ç å™¨å’Œå¤„ç†çº¿ç¨‹
 	if (!vt->Open(demux->CopyVPara(), call, demux->width, demux->height)) {
 		ret = false;
 		cout << "vt->Open failed" << endl;
 	}
-	//´ò¿ªÊÓÆµ½âÂëÆ÷ºÍ´¦ÀíÏß³Ì
+	//æ‰“å¼€è§†é¢‘è§£ç å™¨å’Œå¤„ç†çº¿ç¨‹
 	if (!at->Open(demux->CopyAPara(), demux->sampleRate, demux->channels)) {
 		ret = false;
 		cout << "at->Open failed" << endl;
@@ -69,13 +69,15 @@ void XDemuxThread::Clear() {
 	mux.unlock();
 }
 
-//¹Ø±ÕÏß³Ì£¬ÇåÀí×ÊÔ´
+//å…³é—­çº¿ç¨‹ï¼Œæ¸…ç†èµ„æº
 void XDemuxThread::Close() {
+	//ç­‰å¾…å½“å‰çº¿ç¨‹ç»“æŸ
 	isExit = true;
 	wait();
 
 	if (vt) vt->Close();
 	if (at) at->Close();
+
 	mux.lock();
 	delete vt;
 	delete at;
@@ -84,7 +86,7 @@ void XDemuxThread::Close() {
 	mux.unlock();
 }
 
-//Æô¶¯ËùÓĞÏß³Ì
+//å¯åŠ¨æ‰€æœ‰çº¿ç¨‹
 void XDemuxThread::Start() {
 	mux.lock();
 	if (!demux) {
@@ -97,7 +99,7 @@ void XDemuxThread::Start() {
 		at = new XAudioThread();
 	}
 
-	//Æô¶¯µ±Ç°Ïß³Ì
+	//å¯åŠ¨å½“å‰çº¿ç¨‹
 	QThread::start();
 	if (vt) vt->start();
 	if (at) at->start();
@@ -105,26 +107,26 @@ void XDemuxThread::Start() {
 }
 
 void XDemuxThread::Seek(double pos) {
-	//ÇåÀí»º´æ
+	//æ¸…ç†ç¼“å­˜
 	Clear();
 
 	mux.lock();
 	bool status = this->isPause;
 	mux.unlock();
 
-	//ÔİÍ£
+	//æš‚åœ
 	SetPause(true);
 
 	mux.lock();
 	if (demux) {
 		demux->Seek(pos);
 	}
-	//Êµ¼ÊÒªÏÔÊ¾µÄÎ»ÖÃpts
+	//å®é™…è¦æ˜¾ç¤ºçš„ä½ç½®pts
 	long long seekPts = pos * demux->totalMs;
 	while (!isExit) {
 		AVPacket* pkt = demux->ReadVideo();
 		if (!pkt) break;
-		//Èç¹û½âÂëµ½seekPts
+		//å¦‚æœè§£ç åˆ°seekPts
 		if (vt->RepaintPts(pkt, seekPts)) {
 			this->pts = seekPts;
 			break;
@@ -133,7 +135,7 @@ void XDemuxThread::Seek(double pos) {
 
 	mux.unlock();
 
-	//seekÊÇ·ÇÔİÍ£×´Ì¬
+	//seekæ˜¯éæš‚åœçŠ¶æ€
 	if (!status) {
 		SetPause(false);
 	}
@@ -162,9 +164,9 @@ void XDemuxThread::run() {
 			continue;
 		}
 
-		//ÒôÊÓÆµÍ¬²½
+		//éŸ³è§†é¢‘åŒæ­¥
 		if (vt && at) {
-			pts = at->pts;//ÕâÀï¸³ÖµÊÇÓÃÓÚ½ø¶ÈÌõÏÔÊ¾µÄ
+			pts = at->pts;//è¿™é‡Œèµ‹å€¼æ˜¯ç”¨äºè¿›åº¦æ¡æ˜¾ç¤ºçš„
 			vt->synpts = at->pts;
 		}
 
@@ -174,12 +176,12 @@ void XDemuxThread::run() {
 			msleep(5);
 			continue;
 		}
-		//ÅĞ¶ÏÊı¾İÊÇÒôÆµ
-		if (demux->IsAudio(pkt)) {//ÒôÆµ
+		//åˆ¤æ–­æ•°æ®æ˜¯éŸ³é¢‘
+		if (demux->IsAudio(pkt)) {//éŸ³é¢‘
 			if (at) {
 				at->Push(pkt);
 			}
-		}else {//ÊÓÆµ
+		}else {//è§†é¢‘
 			if (vt) {
 				vt->Push(pkt);
 			}
@@ -187,6 +189,6 @@ void XDemuxThread::run() {
 
 		mux.unlock();
 
-		msleep(1);//ÑÓ³Ù1ºÁÃë£¬±ÜÃâ¶ÁÈ¡Ì«¿ì£¬µ¼ÖÂÒôÊÓÆµÍ¬²½²»¼°Ê±
+		msleep(1);//å»¶è¿Ÿ1æ¯«ç§’ï¼Œé¿å…è¯»å–å¤ªå¿«ï¼Œå¯¼è‡´éŸ³è§†é¢‘åŒæ­¥ä¸åŠæ—¶
 	}
 }

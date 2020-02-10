@@ -1,4 +1,4 @@
-#include "XAudioThread.h"
+ï»¿#include "XAudioThread.h"
 #include "XAudioPlay.h"
 #include "XResample.h"
 #include "XDecode.h"
@@ -16,9 +16,7 @@ XAudioThread::XAudioThread(){
 
 
 XAudioThread::~XAudioThread(){
-	//µÈ´ıÏß³ÌÍË³ö
-	isExit = true;
-	wait();
+	
 }
 
 bool XAudioThread::Open(AVCodecParameters* para, int sampleRate, int channels) {
@@ -61,7 +59,7 @@ void XAudioThread::Clear() {
 	amux.unlock();
 }
 
-//Í£Ö¹Ïß³Ì£¬ÇåÀí×ÊÔ´
+//åœæ­¢çº¿ç¨‹ï¼Œæ¸…ç†èµ„æº
 void XAudioThread::Close() {
 
 	XDecodeThread::Close();
@@ -110,22 +108,22 @@ void XAudioThread::run() {
 			msleep(1);
 			continue;
 		}
-		//Ò»´Îsend,¶à´Îrecv
+		//ä¸€æ¬¡send,å¤šæ¬¡recv
 		while (!isExit){
 			AVFrame* frame = decode->Recv();
 			if (!frame) break;
 
-			//¼õÈ¥»º³åÖĞÎ´²¥·ÅµÄÊ±¼ä
+			//å‡å»ç¼“å†²ä¸­æœªæ’­æ”¾çš„æ—¶é—´
 			pts = decode->pts - ap->GetNoPlayMs();
 			//cout << "audio pts = " << pts << endl;
 
-			//ÖØ²ÉÑù
+			//é‡é‡‡æ ·
 			int size = res->Resample(frame, pcm);
-			//²¥·ÅÒôÆµ
+			//æ’­æ”¾éŸ³é¢‘
 			while (!isExit) {
 				if (size <= 0) break;
-				//»º³åÎ´²¥Íê£¬¿Õ¼ä²»¹»
-				if ((ap->GetFree() < size) || isPause) {//ÕâÀïisPause,µ±ÔİÍ£Ê±£¬QtÒôÆµÉè±¸ÖĞ»º´æµÄÊı¾İÒ²ÂíÉÏÔİÍ£
+				//ç¼“å†²æœªæ’­å®Œï¼Œç©ºé—´ä¸å¤Ÿ
+				if ((ap->GetFree() < size) || isPause) {//è¿™é‡ŒisPause,å½“æš‚åœæ—¶ï¼ŒQtéŸ³é¢‘è®¾å¤‡ä¸­ç¼“å­˜çš„æ•°æ®ä¹Ÿé©¬ä¸Šæš‚åœæ’­æ”¾
 					msleep(1);
 					continue;
 				}

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 class XAudioPlay
 {
 public:
@@ -11,15 +11,15 @@ public:
 
 	static XAudioPlay* Get();
 
-	//´ò¿ªÒôÆµ²¥·Å
+	//æ‰“å¼€éŸ³é¢‘æ’­æ”¾
 	virtual bool Open() = 0;
 	virtual void Clear() = 0;
 	virtual void Close() = 0;
 
-	//·µ»Ø»º³åÖÐ»¹Ã»ÓÐ²¥·ÅµÄÊ±¼ä(ºÁÃë)
+	//è¿”å›žç¼“å†²ä¸­è¿˜æ²¡æœ‰æ’­æ”¾çš„æ—¶é—´(æ¯«ç§’)
 	virtual long long GetNoPlayMs() = 0;
 
-	//²¥·ÅÒôÆµ
+	//æ’­æ”¾éŸ³é¢‘
 	virtual bool Write(const unsigned char* data, int datasize) = 0;
 	virtual int GetFree() = 0;
 

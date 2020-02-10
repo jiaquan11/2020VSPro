@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <QThread>
 #include <mutex>
 
@@ -18,14 +18,14 @@ public:
 	long long totalMs = 0;
 	bool isPause = false;
 
-	//Æô¶¯ËùÓĞÏß³Ì
+	//å¯åŠ¨æ‰€æœ‰çº¿ç¨‹
 	virtual void Start();
 	void run();
-	//´´½¨¶ÔÏó²¢´ò¿ª
+	//åˆ›å»ºå¯¹è±¡å¹¶æ‰“å¼€
 	virtual bool Open(const char* url, IVideoCall* call);
 
 	virtual void Clear();
-	//¹Ø±ÕÏß³Ì£¬ÇåÀí×ÊÔ´
+	//å…³é—­çº¿ç¨‹ï¼Œæ¸…ç†èµ„æº
 	virtual void Close();
 
 	virtual void Seek(double pos);

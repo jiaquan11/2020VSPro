@@ -1,4 +1,4 @@
-#include "XResample.h"
+ï»¿#include "XResample.h"
 #include <iostream>
 using namespace std;
 
@@ -17,22 +17,22 @@ XResample::~XResample(){
 
 }
 
-//Êä³ö²ÎÊýºÍÊäÈë²ÎÊýÒ»ÖÂ³ýÁË²ÉÑù¸ñÊ½£¬Êä³öÎªS16
+//è¾“å‡ºå‚æ•°å’Œè¾“å…¥å‚æ•°ä¸€è‡´é™¤äº†é‡‡æ ·æ ¼å¼ï¼Œè¾“å‡ºä¸ºS16
 bool XResample::Open(AVCodecParameters *para, bool isClearPara) {
 	if (!para)
 		return false;
 	
 	mux.lock();
 
-	//ÒôÆµÖØ²ÉÑù,ÉÏÏÂÎÄ³õÊ¼»¯
+	//éŸ³é¢‘é‡é‡‡æ ·,ä¸Šä¸‹æ–‡åˆå§‹åŒ–
 	//if (!actx)
 		//actx = swr_alloc();
-	//Èç¹ûactxÎªNULL»á·ÖÅä¿Õ¼ä
+	//å¦‚æžœactxä¸ºNULLä¼šåˆ†é…ç©ºé—´
 	actx = swr_alloc_set_opts(actx,
-		av_get_default_channel_layout(2),//Êä³ö¸ñÊ½
-		(AVSampleFormat)outFormat,		//Êä³öÑù±¾¸ñÊ½  AV_SAMPLE_FMT_S16
-		para->sample_rate,				//Êä³ö²ÉÑùÂÊ
-		av_get_default_channel_layout(para->channels),//ÊäÈë¸ñÊ½
+		av_get_default_channel_layout(2),//è¾“å‡ºæ ¼å¼
+		(AVSampleFormat)outFormat,		//è¾“å‡ºæ ·æœ¬æ ¼å¼  AV_SAMPLE_FMT_S16
+		para->sample_rate,				//è¾“å‡ºé‡‡æ ·çŽ‡
+		av_get_default_channel_layout(para->channels),//è¾“å…¥æ ¼å¼
 		(AVSampleFormat)para->format,
 		para->sample_rate,
 		0, 0);
@@ -62,7 +62,7 @@ void XResample::Close() {
 	mux.unlock();
 }
 
-//·µ»ØÖØ²ÉÑùºóµÄ´óÐ¡,²»¹Ü³É¹¦Óë·ñ¶¼ÊÍ·Åindata¿Õ¼ä
+//è¿”å›žé‡é‡‡æ ·åŽçš„å¤§å°,ä¸ç®¡æˆåŠŸä¸Žå¦éƒ½é‡Šæ”¾indataç©ºé—´
 int XResample::Resample(AVFrame* indata, unsigned char* d) {
 	if (!indata)
 		return 0;
@@ -75,8 +75,8 @@ int XResample::Resample(AVFrame* indata, unsigned char* d) {
 	uint8_t* data[2] = { 0 };
 	data[0] = d;
 	int ret = swr_convert(actx,
-		data, indata->nb_samples,		//Êä³ö
-		(const uint8_t**)indata->data, indata->nb_samples  //ÊäÈë
+		data, indata->nb_samples,		//è¾“å‡º
+		(const uint8_t**)indata->data, indata->nb_samples  //è¾“å…¥
 	);
 
 	int outSize = ret * indata->channels * av_get_bytes_per_sample((AVSampleFormat)outFormat);

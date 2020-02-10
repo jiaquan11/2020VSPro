@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <mutex>
 struct AVFormatContext;
 struct AVPacket;
@@ -10,34 +10,34 @@ public:
 	XDemux();
 	virtual ~XDemux();
 
-	//´ò¿ªÃ½ÌåÎÄ¼ş£¬»òÕßÁ÷Ã½Ìårtmp http rtsp
+	//æ‰“å¼€åª’ä½“æ–‡ä»¶ï¼Œæˆ–è€…æµåª’ä½“rtmp http rtsp
 	virtual bool Open(const char* url);
 
 	virtual bool IsAudio(AVPacket* pkt);
 
-	//¿Õ¼äĞèÒªµ÷ÓÃÕßÊÍ·Å,ÊÍ·ÅAVPacket¶ÔÏó¿Õ¼äºÍÊı¾İ¿Õ¼ä av_packet_free();
+	//ç©ºé—´éœ€è¦è°ƒç”¨è€…é‡Šæ”¾,é‡Šæ”¾AVPacketå¯¹è±¡ç©ºé—´å’Œæ•°æ®ç©ºé—´ av_packet_free();
 	virtual AVPacket *Read();
 
-	//Ö»¶ÁÊÓÆµ£¬ÒôÆµ¶ªÆú¿Õ¼äÊÍ·Å
+	//åªè¯»è§†é¢‘ï¼ŒéŸ³é¢‘ä¸¢å¼ƒç©ºé—´é‡Šæ”¾
 	virtual AVPacket* ReadVideo();
 
-	//Ã½Ìå×ÜÊ±³¤ms
+	//åª’ä½“æ€»æ—¶é•¿ms
 	int totalMs = 0;
 	int width = 0;
 	int height = 0;
 	int sampleRate = 0;
 	int channels = 0;
 
-	//»ñÈ¡ÊÓÆµ²ÎÊı£¬·µ»ØµÄ¿Õ¼äĞèÒªÇåÀí  avcodec_parameters_free()
+	//è·å–è§†é¢‘å‚æ•°ï¼Œè¿”å›çš„ç©ºé—´éœ€è¦æ¸…ç†  avcodec_parameters_free()
 	AVCodecParameters *CopyVPara();
 
-	//»ñÈ¡ÒôÆµ²ÎÊı£¬·µ»ØµÄ¿Õ¼äĞèÒªÇåÀí avcodec_parameters_free()
+	//è·å–éŸ³é¢‘å‚æ•°ï¼Œè¿”å›çš„ç©ºé—´éœ€è¦æ¸…ç† avcodec_parameters_free()
 	AVCodecParameters *CopyAPara();
 
-	//seekÎ»ÖÃ pos 0.0~1.0
+	//seekä½ç½® pos 0.0~1.0
 	virtual bool Seek(double pos);
 
-	//Çå¿Õ¶ÁÈ¡»º´æ
+	//æ¸…ç©ºè¯»å–ç¼“å­˜
 	virtual void Clear();
 
 	virtual void Close();
@@ -45,10 +45,10 @@ public:
 protected:
 	std::mutex mux;
 
-	//½â·â×°ÉÏÏÂÎÄ
+	//è§£å°è£…ä¸Šä¸‹æ–‡
 	AVFormatContext *ic = NULL;
 
-	//ÒôÊÓÆµË÷Òı£¬¶ÁÈ¡Ê±Çø·ÖÒôÊÓÆµ
+	//éŸ³è§†é¢‘ç´¢å¼•ï¼Œè¯»å–æ—¶åŒºåˆ†éŸ³è§†é¢‘
 	int videoStream = 0;
 	int audioStream = 1;
 };

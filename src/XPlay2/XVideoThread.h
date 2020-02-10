@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <list>
 #include <mutex>
 #include <QThread>
@@ -9,22 +9,22 @@ struct AVPacket;
 class XDecode;
 struct AVCodecParameters;
 
-//½âÂëºÍÏÔÊ¾ÊÓÆµ
+//è§£ç å’Œæ˜¾ç¤ºè§†é¢‘
 class XVideoThread : public XDecodeThread
 {
 public:
 	XVideoThread();
 	virtual ~XVideoThread();
 
-	//²»¹Ü³É¹¦Óë·ñ¶¼ÇåÀí
+	//ä¸ç®¡æˆåŠŸä¸å¦éƒ½æ¸…ç†
 	virtual bool Open(AVCodecParameters* para, IVideoCall* call, int width, int height);
 	
-	//½âÂëpts,Èç¹û½ÓÊÕµ½µÄ½âÂëÊı¾İpts >= seekpts return true  ²¢ÇÒÏÔÊ¾»­Ãæ
+	//è§£ç pts,å¦‚æœæ¥æ”¶åˆ°çš„è§£ç æ•°æ®pts >= seekpts return true  å¹¶ä¸”æ˜¾ç¤ºç”»é¢
 	virtual bool RepaintPts(AVPacket* pkt, long long seekpts);
 
 	void run();
 
-	//Í¬²½Ê±¼ä£¬ÓÉÍâ²¿´«Èë
+	//åŒæ­¥æ—¶é—´ï¼Œç”±å¤–éƒ¨ä¼ å…¥
 	long long synpts = 0;
 
 	bool isPause = false;
