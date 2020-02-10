@@ -17,8 +17,8 @@ public:
 	XVideoThread vt;
 
 	void Init() {
-		char* url = "testvideo1.mp4";
-		cout << "demux.Open = " << demux.Open(url) << endl;
+        //char* url = "testvideo1.mp4";
+        //cout << "demux.Open = " << demux.Open(url) << endl;
 		//cout << "vdecode.Open() =" << vdecode.Open(demux.CopyVPara()) << endl; 
 		//cout << "adecode.Open() =" << adecode.Open(demux.CopyAPara()) << endl;
 
@@ -28,11 +28,11 @@ public:
 
 		//cout << "XAudioPlay::Get()->Open() = " << XAudioPlay::Get()->Open() << endl;
 
-		cout << "at.Open() = " << at.Open(demux.CopyAPara(), demux.sampleRate, demux.channels) << endl;
-		vt.Open(demux.CopyVPara(), video, demux.width, demux.height);
+        //cout << "at.Open() = " << at.Open(demux.CopyAPara(), demux.sampleRate, demux.channels) << endl;
+        //vt.Open(demux.CopyVPara(), video, demux.width, demux.height);
 
-		at.start();
-		vt.start();
+        //at.start();
+        //vt.start();
 	}
 
 	unsigned char* pcm = new unsigned char[1024 * 1024];
