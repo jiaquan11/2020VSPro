@@ -14,15 +14,44 @@ XAudioThread::XAudioThread(){
 	}
 }
 
-
 XAudioThread::~XAudioThread(){
 	
+}
+
+void XAudioThread::Clear() {
+
+	XDecodeThread::Clear();
+
+	//amux.lock();
+	if (ap) ap->Clear();
+	//amux.unlock();
+}
+
+//停止线程，清理资源
+void XAudioThread::Close() {
+
+	XDecodeThread::Close();
+
+	if (res) {
+		res->Close();
+		amux.lock();
+		delete res;
+		res = NULL;
+		amux.unlock();
+	}
+
+	if (ap) {
+		ap->Close();
+		amux.lock();
+		ap = NULL;
+		amux.unlock();
+	}
 }
 
 bool XAudioThread::Open(AVCodecParameters* para, int sampleRate, int channels) {
 	if (!para) return false;
 
-	Clear();
+	Clear();//先清理一下缓存
 
 	amux.lock();
 	pts = 0;
@@ -51,35 +80,6 @@ bool XAudioThread::Open(AVCodecParameters* para, int sampleRate, int channels) {
 	return ret; 
 }
 
-void XAudioThread::Clear() {
-
-	XDecodeThread::Clear();
-	amux.lock();
-	if (ap) ap->Clear();
-	amux.unlock();
-}
-
-//停止线程，清理资源
-void XAudioThread::Close() {
-
-	XDecodeThread::Close();
-
-	if (res) {
-		res->Close();
-		amux.lock();
-		delete res;
-		res = NULL;
-		amux.unlock();
-	}
-
-	if (ap) {
-		ap->Close();
-		amux.lock();
-		ap = NULL;
-		amux.unlock();
-	}
-}
-
 void XAudioThread::SetPause(bool isPause) {
 	//amux.lock();
 	this->isPause = isPause;
@@ -95,7 +95,7 @@ void XAudioThread::run() {
 	while (!isExit) {
 		amux.lock();
 
-		if (isPause) {
+		if (isPause) {//暂停，停止音频解码和播放
 			amux.unlock();
 			msleep(5);
 			continue;

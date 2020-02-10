@@ -38,7 +38,7 @@ void XPlay2::resizeEvent(QResizeEvent* e) {
 	ui.playPos->resize(this->width() - 100, ui.playPos->height());
 	ui.openFile->move(100, this->height() - 150);
 	ui.isPlay->move(ui.openFile->x() + ui.openFile->width() + 10, ui.openFile->y());
-	ui.video->resize(this->size());
+	ui.video->resize(this->size());//opengl控件缩放
 }
 
 //重载:鼠标双击事件

@@ -16,8 +16,34 @@ XDemuxThread::XDemuxThread() {
 
 
 XDemuxThread::~XDemuxThread(){
+
+}
+
+void XDemuxThread::Clear() {
+	mux.lock();
+	if (demux) demux->Clear();
+	if (vt) vt->Clear();
+	if (at) at->Clear();
+	mux.unlock();
+}
+
+//关闭线程，清理资源
+void XDemuxThread::Close() {
+	//等待当前线程结束
 	isExit = true;
 	wait();
+
+	Clear();
+
+	if (vt) vt->Close();
+	if (at) at->Close();
+
+	mux.lock();
+	delete vt;
+	delete at;
+	vt = NULL;
+	at = NULL;
+	mux.unlock();
 }
 
 bool XDemuxThread::Open(const char* url, IVideoCall* call) {
@@ -61,31 +87,6 @@ bool XDemuxThread::Open(const char* url, IVideoCall* call) {
 	return ret;
 }
 
-void XDemuxThread::Clear() {
-	mux.lock();
-	if (demux) demux->Clear();
-	if (vt) vt->Clear();
-	if (at) at->Clear();
-	mux.unlock();
-}
-
-//关闭线程，清理资源
-void XDemuxThread::Close() {
-	//等待当前线程结束
-	isExit = true;
-	wait();
-
-	if (vt) vt->Close();
-	if (at) at->Close();
-
-	mux.lock();
-	delete vt;
-	delete at;
-	vt = NULL;
-	at = NULL;
-	mux.unlock();
-}
-
 //启动所有线程
 void XDemuxThread::Start() {
 	mux.lock();
@@ -119,12 +120,12 @@ void XDemuxThread::Seek(double pos) {
 
 	mux.lock();
 	if (demux) {
-		demux->Seek(pos);
+		demux->Seek(pos);//这里先seek到数据包的点，下面再每读取数据包并解码，然后判断是否到渲染时间点
 	}
 	//实际要显示的位置pts
 	long long seekPts = pos * demux->totalMs;
-	while (!isExit) {
-		AVPacket* pkt = demux->ReadVideo();
+	while (!isExit) {//这里seek，可以精准到视频的某个seek时间点，因为这个while循环是直接判断解码那帧视频时间戳才结束
+		AVPacket* pkt = demux->ReadVideo();//seek这里只读取视频包用于seek,确定到seek点进行渲染
 		if (!pkt) break;
 		//如果解码到seekPts
 		if (vt->RepaintPts(pkt, seekPts)) {
@@ -135,7 +136,7 @@ void XDemuxThread::Seek(double pos) {
 
 	mux.unlock();
 
-	//seek是非暂停状态
+	//若seek时 是非暂停状态   seek完成后立即开始播放
 	if (!status) {
 		SetPause(false);
 	}

@@ -79,7 +79,7 @@ bool XVideoThread::RepaintPts(AVPacket* pkt, long long seekpts) {
 void XVideoThread::run() {
 	while (!isExit) {
 		vmux.lock();
-		if (this->isPause) {
+		if (this->isPause) {//暂停，停止视频解码渲染
 			vmux.unlock();
 			msleep(5);
 			continue;
