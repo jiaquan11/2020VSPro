@@ -6,6 +6,9 @@
 
 static XDemuxThread dt;
 
+//linux上会自动忽略这条指令，因为linux上默认就是使用utf-8的字符编码。而windows上  VS默认使用gbk
+#pragma execution_character_set("utf-8")//强制编译时字符编码使用utf-8
+
 XPlay2::XPlay2(QWidget *parent)
 	: QWidget(parent){
 	ui.setupUi(this);
@@ -53,16 +56,19 @@ void XPlay2::mouseDoubleClickEvent(QMouseEvent* e) {
 
 void XPlay2::SetPause(bool isPause) {
 	if (isPause) {
-		ui.isPlay->setText(QString::fromLocal8Bit("播 放"));
+		//ui.isPlay->setText(QString::fromLocal8Bit("播 放"));
+		ui.isPlay->setText("播 放");
 	}else {
-		ui.isPlay->setText(QString::fromLocal8Bit("暂 停"));
+		//ui.isPlay->setText(QString::fromLocal8Bit("暂 停"));
+		ui.isPlay->setText("暂 停");
 	}
 }
 
 //槽函数：响应打开视频文件播放操作
 void XPlay2::openFile() {
 	//选择文件
-	QString name = QFileDialog::getOpenFileName(this, QString::fromLocal8Bit("选择视频文件"));
+	//QString name = QFileDialog::getOpenFileName(this, QString::fromLocal8Bit("选择视频文件"));
+	QString name = QFileDialog::getOpenFileName(this, "选择视频文件");
 	//qDebug() << name;
 	if (name.isEmpty()) return;
 	this->setWindowTitle(name);
