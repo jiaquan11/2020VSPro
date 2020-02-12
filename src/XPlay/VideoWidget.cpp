@@ -1,4 +1,4 @@
-#include "VideoWidget.h"
+﻿#include "VideoWidget.h"
 #include <QPainter>
 #include "XFFmpeg.h"
 #include "XVideoThread.h"

@@ -1,4 +1,4 @@
-#include "XAudioPlay.h"
+﻿#include "XAudioPlay.h"
 #include <QAudioOutput>
 #include <QMutex>
 

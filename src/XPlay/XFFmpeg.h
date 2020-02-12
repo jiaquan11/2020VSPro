@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <QMutex>
 #include <string>
 
@@ -27,12 +27,12 @@ public:
 	int channel = 2;
 
 	//////////////////////
-	//´ò¿ªÊÓÆµÎÄ¼ş£¬Èç¹ûÉÏ´ÎÒÑ¾­´ò¿ª£¬»áÏÈ¹Ø±Õ
+	//æ‰“å¼€è§†é¢‘æ–‡ä»¶ï¼Œå¦‚æœä¸Šæ¬¡å·²ç»æ‰“å¼€ï¼Œä¼šå…ˆå…³é—­
 	//return int return total ms
 	int Open(const char* path);
 	void Close();
 
-	//·µ»ØÖµĞèÒªÓÃ»§ÇåÀí
+	//è¿”å›å€¼éœ€è¦ç”¨æˆ·æ¸…ç†
 	AVPacket Read();
 
 	int GetPts(const AVPacket* pkt);

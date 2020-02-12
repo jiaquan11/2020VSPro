@@ -1,4 +1,4 @@
-#include "XPlay.h"
+ï»¿#include "XPlay.h"
 #include <QFileDialog>
 #include <QMessageBox>
 #include "XFFmpeg.h"
@@ -27,7 +27,7 @@ XPlay::~XPlay() {
 }
 
 void XPlay::open() {
-	QString name = QFileDialog::getOpenFileName(this, QString::fromLocal8Bit("Ñ¡ÔñÊÓÆµÎÄ¼þ"));
+	QString name = QFileDialog::getOpenFileName(this, QString::fromLocal8Bit("é€‰æ‹©è§†é¢‘æ–‡ä»¶"));
 	if (name.isEmpty())
 		return;
 
@@ -43,8 +43,8 @@ void XPlay::open() {
 	XAudioPlay::Get()->Start();
 
 	char buf[1024] = { 0 };
-	int min = (totalMs / 1000) / 60;//·Ö
-	int sec = (totalMs / 1000) % 60;//Ãë
+	int min = (totalMs / 1000) / 60;//åˆ†
+	int sec = (totalMs / 1000) % 60;//ç§’
 	sprintf(buf, "%03d:%02d", min, sec);
 	ui.totalTime->setText(buf);
 
@@ -97,7 +97,7 @@ void XPlay::timerEvent(QTimerEvent* e) {
 
 	if (XFFmpeg::Get()->totalMs > 0) {
 		float rate = (float)XFFmpeg::Get()->pts / (float)XFFmpeg::Get()->totalMs;
-		if (!isPressSlider) {//°´ÏÂ½ø¶ÈÌõÊ±£¬½ø¶ÈÌõ²»Ë¢ÐÂ
+		if (!isPressSlider) {//æŒ‰ä¸‹è¿›åº¦æ¡æ—¶ï¼Œè¿›åº¦æ¡ä¸åˆ·æ–°
 			ui.playSlider->setValue(rate * 1000);
 		}
 	}

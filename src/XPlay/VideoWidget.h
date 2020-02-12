@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <QtWidgets/qwidget.h>
 #include <QOpenGLWidget>
 

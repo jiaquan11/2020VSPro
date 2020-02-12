@@ -1,4 +1,4 @@
-#include "XSlider.h"
+﻿#include "XSlider.h"
 #include <QMouseEvent>
 
 XSlider::XSlider(QWidget *parent)

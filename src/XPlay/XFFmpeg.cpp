@@ -1,4 +1,4 @@
-#include "XFFmpeg.h"
+﻿#include "XFFmpeg.h"
 
 #pragma comment(lib, "avformat.lib")
 #pragma comment(lib, "avutil.lib")

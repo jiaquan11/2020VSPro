@@ -1,4 +1,4 @@
-#include "XVideoThread.h"
+﻿#include "XVideoThread.h"
 #include "XFFmpeg.h"
 #include "XAudioPlay.h"
 #include <list>
@@ -38,7 +38,7 @@ void XVideoThread::run() {
 		}
 
 		int free = XAudioPlay::Get()->GetFree();
-		if (free < 10000) {
+		if (free < 4096) {
 			msleep(1);
 			continue;
 		}

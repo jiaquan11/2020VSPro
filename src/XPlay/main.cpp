@@ -1,4 +1,4 @@
-#include "XPlay.h"
+﻿#include "XPlay.h"
 #include <QtWidgets/QApplication>
 #include "XFFmpeg.h"
 #include <QAudioOutput>
