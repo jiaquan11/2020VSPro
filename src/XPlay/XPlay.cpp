@@ -76,8 +76,10 @@ void XPlay::sliderRelease() {
 	XFFmpeg::Get()->Seek(pos);
 }
 
+//界面控件变化调整
 void XPlay::resizeEvent(QResizeEvent* e) {
 	ui.openGLWidget->resize(size());
+
 	ui.playBtn->move(this->width() / 2 + 50, this->height() - 80);
 	ui.openBtn->move(this->width() / 2 - 50, this->height() - 80);
 	ui.playSlider->move(25, this->height() - 120);
@@ -88,6 +90,7 @@ void XPlay::resizeEvent(QResizeEvent* e) {
 
 }
 
+//视频播放过程中，进度条按照定时器设置进行刷新，以播放时间戳的位置进行刷新
 void XPlay::timerEvent(QTimerEvent* e) {
 	int min = (XFFmpeg::Get()->pts / 1000) / 60;
 	int sec = (XFFmpeg::Get()->pts / 1000) % 60;

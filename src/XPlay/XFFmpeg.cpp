@@ -91,6 +91,9 @@ void XFFmpeg::Close() {
 	if (yuv) {
 		av_frame_free(&yuv);
 	}
+	if (pcm) {
+		av_frame_free(&pcm);
+	}
 	if (cCtx) {
 		sws_freeContext(cCtx);
 		cCtx = NULL;
@@ -150,13 +153,14 @@ int XFFmpeg::Decode(const AVPacket *pkt) {
 	}
 	mutex.unlock();
 
-	int p = frame->pts * r2d(ic->streams[pkt->stream_index]->time_base)*1000;
+	int p = frame->pts * r2d(ic->streams[pkt->stream_index]->time_base)*1000;//转换为毫秒
 	if (pkt->stream_index == audioStream) {
-		this->pts = p;
+		this->pts = p;//音频解码时间戳用于刷新进度条
 	}
 	return p;
 }
 
+//获取当前packet的时间戳
 int XFFmpeg::GetPts(const AVPacket* pkt) {
 	mutex.lock();
 	if (!ic) {
@@ -164,11 +168,12 @@ int XFFmpeg::GetPts(const AVPacket* pkt) {
 		return -1;
 	}
 	
-	int ptsMs = pkt->pts * r2d(ic->streams[pkt->stream_index]->time_base) * 1000;
+	int ptsMs = pkt->pts * r2d(ic->streams[pkt->stream_index]->time_base) * 1000;//转换为毫秒
 	mutex.unlock();
 	return ptsMs;
 }
 
+//将视频Frame YUV数据转换为RGB数据
 bool XFFmpeg::ToRGB(char* out, int outwidth, int outheight) {
 	mutex.lock();
 	if (!ic || !yuv) {
@@ -206,6 +211,7 @@ bool XFFmpeg::ToRGB(char* out, int outwidth, int outheight) {
 	mutex.unlock();
 }
 
+//将音频Frame PCM数据进行重采样
 int XFFmpeg::ToPCM(char* out) {
 	mutex.lock();
 	if (!ic || !pcm || !out) {
@@ -252,7 +258,7 @@ bool XFFmpeg::Seek(float pos) {
 	stamp = pos * ic->streams[videoStream]->duration;
 	int ret = av_seek_frame(ic, videoStream, stamp, AVSEEK_FLAG_BACKWARD | AVSEEK_FLAG_FRAME);
 	avcodec_flush_buffers(ic->streams[videoStream]->codec);
-	pts = stamp * r2d(ic->streams[videoStream]->time_base) * 1000;
+	pts = stamp * r2d(ic->streams[videoStream]->time_base) * 1000;//计算得到seek时间戳
 	mutex.unlock();
 	if (ret >= 0) {
 		return true;

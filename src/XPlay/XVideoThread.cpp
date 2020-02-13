@@ -49,6 +49,7 @@ void XVideoThread::run() {
 			continue;
 		}
 
+		//音频流
 		if (pkt.stream_index == XFFmpeg::Get()->audioStream) {
 			apts = XFFmpeg::Get()->Decode(&pkt);
 			av_packet_unref(&pkt);
@@ -57,6 +58,7 @@ void XVideoThread::run() {
 			continue;
 		}
 
+		//非字幕流
 		if (pkt.stream_index != XFFmpeg::Get()->videoStream) {
 			av_packet_unref(&pkt);
 			continue;
