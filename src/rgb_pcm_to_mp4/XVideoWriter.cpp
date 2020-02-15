@@ -70,6 +70,27 @@ public:
 		return true;
 	}
 
+	bool WriteHead() {
+		if (!oc) return false;
+
+		//打开io
+		int ret = avio_open(&oc->pb, filename.c_str(), AVIO_FLAG_WRITE);
+		if (ret != 0) {
+			cerr << "avio_open failed!" << endl;
+			return false;
+		}
+
+		//写入封装头
+		ret = avformat_write_header(oc, NULL);
+		if (ret != 0) {
+			cerr << "avformat_write_header failed!" << endl;
+			return false;
+		}
+
+		cout << "write " << filename << " head success!" << endl;
+		return true;
+	}
+
 	bool AddVideoStream() {
 		if (!oc) {
 			return false;
@@ -301,27 +322,6 @@ public:
 		}
 
 		return false;
-	}
-
-	bool WriteHead() {
-		if (!oc) return false;
-
-		//打开io
-		int ret = avio_open(&oc->pb, filename.c_str(), AVIO_FLAG_WRITE);
-		if (ret != 0) {
-			cerr << "avio_open failed!" << endl;
-			return false;
-		}
-
-		//写入封装头
-		ret = avformat_write_header(oc, NULL);
-		if (ret != 0) {
-			cerr << "avformat_write_header failed!" << endl;
-			return false;
-		}
-
-		cout << "write " << filename << " head success!" << endl;
-		return true;
 	}
 
 	bool WriteFrame(AVPacket* pkt) {
