@@ -37,3 +37,6 @@
 
 11.pcm_to_aac项目
 增加读取pcm数据，并进行编码封装为aac的工程
+
+12.rgb_pcm_to_mp4项目
+分别读取rgb文件和pcm文件，并进行编码封装合成mp4文件
