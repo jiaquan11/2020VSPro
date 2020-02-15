@@ -44,4 +44,5 @@
 13.TestDirectX项目
 使用Directx接口进行屏幕截取生成rgb文件
 
-14.
+14.QtScreen项目
+增加使用QT接口进行截屏操作，同时对比Directx截屏耗时
