@@ -40,3 +40,8 @@
 
 12.rgb_pcm_to_mp4项目
 分别读取rgb文件和pcm文件，并进行编码封装合成mp4文件
+
+13.TestDirectX项目
+使用Directx接口进行屏幕截取生成rgb文件
+
+14.
