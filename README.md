@@ -46,3 +46,6 @@
 
 14.QtScreen项目
 增加使用QT接口进行截屏操作，同时对比Directx截屏耗时
+
+15.Qt_Input_Audio项目
+增加使用QT接口进行音频录制的操作
