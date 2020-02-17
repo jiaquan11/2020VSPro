@@ -62,13 +62,17 @@ int main() {
 	}
 
 	xw->WriteEnd();
-
+	xw->Close();
+	if (fp) {
+		fclose(fp);
+	}
+	if (fa) {
+		fclose(fa);
+	}
 	delete []rgb;
 	rgb = NULL;
-	//rgb转yuv
-
-
-	//编码视频帧
+	delete []pcm;
+	pcm = NULL;
 
 	cout << "=====================end====================" << endl;
 	getchar();

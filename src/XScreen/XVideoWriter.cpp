@@ -91,6 +91,27 @@ public:
 		return true;
 	}
 
+	bool WriteEnd() {
+		if (!oc || !oc->pb) return false;
+		//写入尾部信息索引
+		if (av_write_trailer(oc) != 0) {
+			cerr << "av_write_trailer failed!" << endl;
+			return false;
+		}
+		//关闭输入io
+		/*
+		avio_closep可以关闭io,同时内部置NULL,否则avformat_close_input又会对oc->pb释放一遍，
+		导致崩溃
+		*/
+		if (avio_closep(&oc->pb) != 0) {
+			cerr << "avio_close failed!" << endl;
+			return false;
+		}
+		cout << "WriteEnd success!" << endl;
+
+		return true;
+	}
+
 	bool AddVideoStream() {
 		if (!oc) {
 			return false;
@@ -123,6 +144,7 @@ public:
 		av_opt_set(vc->priv_data, "preset", "superfast", 0);
 		vc->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
 
+		//打开编码器
 		int ret = avcodec_open2(vc, codec, NULL);
 		if (ret != 0) {
 			cerr << "avcodec_open2 failed" << endl;
@@ -131,7 +153,7 @@ public:
 		cout << "avcodec_open2 success!" << endl;
 
 		//添加视频流到输出上下文
-		vs= avformat_new_stream(oc, NULL);
+		vs = avformat_new_stream(oc, NULL);
 		vs->codecpar->codec_tag = 0;
 		avcodec_parameters_from_context(vs->codecpar, vc);
 
@@ -232,7 +254,8 @@ public:
 	}
 
 	AVPacket* EncodeVideo(const unsigned char* rgb) {
-		AVPacket* p = NULL;
+		if (!oc || !vsc || !yuv) return NULL;
+
 		uint8_t *indata[AV_NUM_DATA_POINTERS] = { 0 };
 		indata[0] = (uint8_t *)rgb;
 		int insize[AV_NUM_DATA_POINTERS] = { 0 };
@@ -242,7 +265,7 @@ public:
 		int h = sws_scale(vsc, indata, insize, 0, inHeight,
 			yuv->data, yuv->linesize);
 		if (h < 0) {
-			return p;
+			return NULL;
 		}
 
 		//encode
@@ -252,10 +275,11 @@ public:
 		if (ret != 0) {
 			return NULL;
 		}
-		p = av_packet_alloc();
-		ret = avcodec_receive_packet(vc, p);
-		if ((ret != 0) || (p->size <= 0)) {
-			av_packet_free(&p);
+		AVPacket* pkt = av_packet_alloc();
+		av_init_packet(pkt);
+		ret = avcodec_receive_packet(vc, pkt);
+		if ((ret != 0) || (pkt->size <= 0)) {
+			av_packet_free(&pkt);
 			return NULL;
 		}
 
@@ -265,13 +289,15 @@ public:
 		然后再进行写文件。两个timebase的值是不一样的，写文件时必须将packet转换为
 		各自流的timebase,视频文件才能正常合成
 		*/
-		av_packet_rescale_ts(p, vc->time_base, vs->time_base);
+		av_packet_rescale_ts(pkt, vc->time_base, vs->time_base);
 
-		p->stream_index = vs->index;
-		return p;
+		pkt->stream_index = vs->index;
+		return pkt;
 	}
 
 	AVPacket* EncodeAudio(const unsigned char* d) {
+		if (!oc || !asc || !pcm) return NULL;
+
 		//1.音频重采样
 		const uint8_t* data[AV_NUM_DATA_POINTERS] = { 0 };
 		data[0] = (uint8_t*)d;
@@ -328,27 +354,8 @@ public:
 		if (!oc || !pkt || (pkt->size <= 0)) return false;
 		
 		if (av_interleaved_write_frame(oc, pkt) != 0) return false;
-		return true;
-	}
 
-	bool WriteEnd() {
-		if (!oc || !oc->pb) return false;
-		//写入尾部信息索引
-		if (av_write_trailer(oc) != 0) {
-			cerr << "av_write_trailer failed!" << endl;
-			return false;
-		}
-		//关闭输入io
-		/*
-		avio_closep可以关闭io,同时内部置NULL,否则avformat_close_input又会对oc->pb释放一遍，
-		导致崩溃
-		*/
-		if (avio_closep(&oc->pb) != 0) {
-			cerr << "avio_close failed!" << endl;
-			return false;
-		}
-		cout << "WriteEnd success!" << endl;
-
+		av_packet_free(&pkt);
 		return true;
 	}
 };
