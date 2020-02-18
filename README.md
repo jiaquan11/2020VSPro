@@ -58,3 +58,7 @@
 
 18.rtsp_to_rtmp
 增加从rtsp流读取数据并使用rtmp进行推流的工程
+
+OPENCV
+19.TestOpenCV项目
+增加第一个opencv的测试项目，加载显示一张图片
