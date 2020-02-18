@@ -355,7 +355,6 @@ public:
 		
 		if (av_interleaved_write_frame(oc, pkt) != 0) return false;
 
-		av_packet_free(&pkt);
 		return true;
 	}
 };

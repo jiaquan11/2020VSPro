@@ -52,3 +52,6 @@
 
 16.XScreen项目
 增加一个屏幕录制的项目，基于DirectX进行截屏，同时QT进行声音录制，并编码封装为mp4文件 
+
+17.file_to_rtmp项目
+增加一个将flv文件解封装并进行推流的工程，推流服务器为搭建的nginx,推流后可通过vlc或ffplay或flash进行拉流播放
