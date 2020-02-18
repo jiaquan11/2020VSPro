@@ -55,3 +55,6 @@
 
 17.file_to_rtmp项目
 增加一个将flv文件解封装并进行推流的工程，推流服务器为搭建的nginx,推流后可通过vlc或ffplay或flash进行拉流播放
+
+18.rtsp_to_rtmp
+增加从rtsp流读取数据并使用rtmp进行推流的工程
