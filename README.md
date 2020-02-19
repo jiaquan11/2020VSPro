@@ -65,3 +65,6 @@ OPENCV
 
 20.TestOpenCVMat
 增加一个测试Mat遍历使用的工程
+
+21.ViewCam项目
+增加使用opencv打开摄像头并显示的工程
