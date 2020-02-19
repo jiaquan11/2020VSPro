@@ -68,3 +68,6 @@ OPENCV
 
 21.ViewCam项目
 增加使用opencv打开摄像头并显示的工程
+
+22.opencv_rtsp_to_rtmp项目
+增加使用opencv打开摄像头获取数据，并通过ffmpeg进行推流的过程
