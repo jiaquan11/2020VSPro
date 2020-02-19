@@ -62,3 +62,6 @@
 OPENCV
 19.TestOpenCV项目
 增加第一个opencv的测试项目，加载显示一张图片
+
+20.TestOpenCVMat
+增加一个测试Mat遍历使用的工程
