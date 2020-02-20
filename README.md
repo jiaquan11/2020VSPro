@@ -71,3 +71,6 @@ OPENCV
 
 22.opencv_rtsp_to_rtmp项目
 增加使用opencv打开摄像头获取数据，并通过ffmpeg进行推流的过程
+
+23.opencv_rtsp_to_rtmp_class项目
+增加使用opencv进行视频采集渲染，并通过rtmp发送推流的重构类代码，待后面继续完善
