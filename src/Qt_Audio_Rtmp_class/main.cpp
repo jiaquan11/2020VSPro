@@ -1,10 +1,7 @@
 ﻿#include <QtCore/QCoreApplication>
-#include <QAudioFormat>
-#include <QAudioDeviceInfo>
-#include <QAudioInput>
-#include <QThread>
 #include "XMediaEncode.h"
 #include "XRtmp.h"
+#include "XAudioRecord.h"
 
 #include <iostream>
 using namespace std;
@@ -20,28 +17,23 @@ int main(int argc, char *argv[])
 	int sampleRate = 44100;
 	int channels = 2;
 	int sampleByte = 2;
+	int nbSamples = 1024;
 
-	//1.qt音频开始录制
-	QAudioFormat fmt;
-	fmt.setSampleRate(sampleRate);
-	fmt.setChannelCount(channels);
-	fmt.setSampleSize(sampleByte * 8);
-	fmt.setCodec("audio/pcm");
-	fmt.setByteOrder(QAudioFormat::LittleEndian);
-	fmt.setSampleType(QAudioFormat::UnSignedInt);
-	QAudioDeviceInfo info = QAudioDeviceInfo::defaultInputDevice();
-	if (!info.isFormatSupported(fmt)) {
-		cout << "Audio format not support!" << endl;
-		fmt = info.nearestFormat(fmt);
+	//1 qt音频开始录制
+	XAudioRecord* ar = XAudioRecord::Get();
+	ar->sampleRate = sampleRate;
+	ar->channels = channels;
+	ar->sampleByte = sampleByte;
+	ar->nbSamples = nbSamples;
+	if (!ar->Init()) {
+		cout << "XAudioRecord Init failed" << endl;
+		getchar();
+		return -1;
 	}
-
-	QAudioInput* input = new QAudioInput(fmt);
-	//开始录制音频
-	QIODevice* io = input->start();
 
 	XMediaEncode* xe = XMediaEncode::Get();
 	xe->channels = channels;
-	xe->nbSample = 1024;
+	xe->nbSample = nbSamples;
 	xe->sampleRate = sampleRate;
 	xe->inSampleFmt = XSampleFMT::X_S16;
 	xe->outSampleFmt = XSampleFMT::X_FLTP;
@@ -77,27 +69,17 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	//一次读取一帧音频的字节数
-	int readSize = xe->nbSample*channels*sampleByte;
-	char* buf = new char[readSize];
 	for (;;) {
 		//一次读取一帧音频
-		if (input->bytesReady() < readSize) {
+		XData d = ar->Pop();
+		if (d.size <= 0) {
 			QThread::msleep(1);
 			continue;
 		}
-		int size = 0;
-		while (size != readSize) {
-			int len = io->read(buf+size, readSize - size);
-			if (len < 0) break;
-			size += len;
-		}
 
-		if (size != readSize) continue;
-
-		//已经读一帧源数据
 		//重采样源数据
-		AVFrame* pcm = xe->Resample(buf);
+		AVFrame* pcm = xe->Resample(d.data);
+		d.Drop();
 
 		//pts运算
 		//nb_sample/sample_rate = 一帧音频的秒数sec
@@ -110,8 +92,6 @@ int main(int argc, char *argv[])
 		//推流
 		xr->SendFrame(pkt);
 	}
-
-	delete[]buf;
 
 	getchar();
 
