@@ -74,3 +74,6 @@ OPENCV
 
 23.opencv_rtsp_to_rtmp_class项目
 增加使用opencv进行视频采集渲染，并通过rtmp发送推流的重构类代码，待后面继续完善
+
+24.Qt_Audio_Rtmp项目
+增加使用Qt音频录制，并使用ffmepg flv封装，rtmp进行推流的功能
