@@ -77,3 +77,6 @@ OPENCV
 
 24.Qt_Audio_Rtmp项目
 增加使用Qt音频录制，并使用ffmepg flv封装，rtmp进行推流的功能
+
+25.Qt_Audio_Rtmp_class项目
+重构代码，使用Qt进行音频录制，并rtmp进行推流的功能
