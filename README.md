@@ -80,3 +80,6 @@ OPENCV
 
 25.Qt_Audio_Rtmp_class项目
 重构代码，使用Qt进行音频录制，并rtmp进行推流的功能
+
+26.Audio_Video_Rtmp_class项目
+实现音频Qt采集，视频OpenCV采集图像，并音视频基本精准同步直播推流的过程
