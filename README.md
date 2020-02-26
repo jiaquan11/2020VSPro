@@ -83,3 +83,6 @@ OPENCV
 
 26.Audio_Video_Rtmp_class项目
 实现音频Qt采集，视频OpenCV采集图像，并音视频基本精准同步直播推流的过程
+
+27.BilateralFilter项目
+增加opencv图像双边滤波接口的调用和性能测试
