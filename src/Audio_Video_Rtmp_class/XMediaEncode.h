@@ -30,7 +30,7 @@ public:
 	int bitrate = 4000000;//压缩后每秒视频的bit位大小
 	int fps = 25;
 	XSampleFMT outSampleFmt = X_FLTP;
-	int nbSample = 1024;
+	int nbSamples = 1024;
 
 public:
 	//工厂生产方法
@@ -59,6 +59,8 @@ public:
 
 	//音频编码 返回值无需调用者清理
 	virtual XData EncodeAudio(XData frame) = 0;
+
+	virtual void Close() = 0;
 
 protected:
 	XMediaEncode();

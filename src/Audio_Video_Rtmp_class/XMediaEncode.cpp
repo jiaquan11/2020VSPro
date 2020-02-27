@@ -209,7 +209,7 @@ public:
 		pcm->format = outSampleFmt;
 		pcm->channels = channels;
 		pcm->channel_layout = av_get_default_channel_layout(channels);
-		pcm->nb_samples = nbSample;//一帧音频一通道的采样数量
+		pcm->nb_samples = nbSamples;//一帧音频一通道的采样数量
 		ret = av_frame_get_buffer(pcm, 0);//给pcm分配存储空间
 		if (ret != 0) {
 			char err[1024] = { 0 };

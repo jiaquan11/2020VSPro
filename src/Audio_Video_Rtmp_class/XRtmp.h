@@ -23,6 +23,8 @@ public:
 	//rtmp帧推流
 	virtual bool SendFrame(XData d, int streamIndex = 0) = 0;
 
+	virtual void Close() = 0;
+
 protected:
 	XRtmp();
 };

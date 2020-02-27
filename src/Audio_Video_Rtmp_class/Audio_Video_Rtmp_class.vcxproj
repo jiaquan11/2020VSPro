@@ -89,6 +89,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="XAudioRecord.cpp" />
     <ClCompile Include="XBilateralFilter.cpp" />
+    <ClCompile Include="XController.cpp" />
     <ClCompile Include="XData.cpp" />
     <ClCompile Include="XDataThread.cpp" />
     <ClCompile Include="XFilter.cpp" />
@@ -99,6 +100,7 @@
   <ItemGroup>
     <ClInclude Include="XAudioRecord.h" />
     <ClInclude Include="XBilateralFilter.h" />
+    <ClInclude Include="XController.h" />
     <ClInclude Include="XData.h" />
     <ClInclude Include="XDataThread.h" />
     <ClInclude Include="XFilter.h" />
