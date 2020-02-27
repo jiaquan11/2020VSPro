@@ -1,5 +1,8 @@
 ﻿#pragma once
 #include "XDataThread.h"
+#include "XFilter.h"
+#include <vector>
+#include <QMutex>
 
 class XVideoCapture : public XDataThread
 {
@@ -17,7 +20,17 @@ public:
 	virtual bool Init(const char *url) = 0;
 	virtual void Stop() = 0;
 
+	void AddFilter(XFilter* f) {
+		fmutex.lock();
+		filters.push_back(f);
+		fmutex.unlock();
+	}
+
 protected:
 	XVideoCapture();
+
+protected:
+	QMutex fmutex;
+	std::vector<XFilter*> filters;
 };
 

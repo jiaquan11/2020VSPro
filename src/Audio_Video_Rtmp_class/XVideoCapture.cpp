@@ -22,6 +22,15 @@ public:
 				continue;
 			}
 
+			fmutex.lock();
+			int num = filters.size();
+			for (int i = 0; i < num; i++) {
+				Mat des;
+				filters[i]->Filter(&frame, &des);
+				frame = des;
+			}
+			fmutex.unlock();
+
 			//确保数据是连续的
 			long long pts = GetCurTime();
 			XData d((char*)frame.data, frame.cols*frame.rows*frame.elemSize(), pts);

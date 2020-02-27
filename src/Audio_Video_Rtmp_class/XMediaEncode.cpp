@@ -181,11 +181,8 @@ public:
 		r.pts = d.pts;
 		yuv->pts = d.pts;
 		r.data = (char*)yuv;
-		int *p = yuv->linesize;
-		while (*p) {//实际就是累加得到一帧yuv的大小
-			r.size += (*p)*outHeight;
-			p++;
-		}
+		//实际就是累加得到一帧yuv的大小
+		r.size = yuv->linesize[0] * outHeight + yuv->linesize[1] * outHeight / 2 + yuv->linesize[2] * outHeight / 2;
 		return r;
 	}
 

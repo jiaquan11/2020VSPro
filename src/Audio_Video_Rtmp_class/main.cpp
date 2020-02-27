@@ -3,6 +3,7 @@
 #include "XRtmp.h"
 #include "XAudioRecord.h"
 #include "XVideoCapture.h"
+#include "XFilter.h"
 
 #include <iostream>
 using namespace std;
@@ -22,6 +23,11 @@ int main(int argc, char *argv[])
 
 	//打开摄像机
 	XVideoCapture* xv = XVideoCapture::Get();
+
+	XFilter *xf = XFilter::Get();
+	xf->Set("d", 9);
+	xv->AddFilter(xf);
+
 	if (!xv->Init(0)) {
 		cout << "open camera failed" << endl;
 		getchar();
@@ -154,7 +160,7 @@ int main(int argc, char *argv[])
 		//处理视频
 		if (vd.size > 0) {
 			vd.pts = vd.pts - beginTime;
-
+			//cout << "vd pts" <<vd.pts<< flush;
 			XData yuv = xe->RGBToYUV(vd);
 			vd.Drop();
 
