@@ -86,3 +86,6 @@ OPENCV
 
 27.BilateralFilter项目
 增加opencv图像双边滤波接口的调用和性能测试
+
+28.XRtmpStreamer项目
+是在Audio_Video_Rtmp_class项目的基础上，增加Qt界面设置和响应操作，实现一个完整的录制直播推流工具
