@@ -95,3 +95,6 @@ OPENCV
 
 30.TestOpenCVROI项目
 调用opencv的接口截取图像感兴趣区域
+
+31.TestOpenCVGRAY项目
+手动实现一个RGB转换灰度图的函数，并和opencv的接口进行性能对比
