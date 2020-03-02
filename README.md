@@ -89,3 +89,6 @@ OPENCV
 
 28.XRtmpStreamer项目
 是在Audio_Video_Rtmp_class项目的基础上，增加Qt界面设置和响应操作，实现一个完整的录制直播推流工具
+
+29.TestQtMat项目
+使用opencv读取一张图像，并使用Qt的opengl控件进行显示的功能

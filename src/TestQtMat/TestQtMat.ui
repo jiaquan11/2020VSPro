@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TestQtMatClass</class>
+ <widget class="QWidget" name="TestQtMatClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>900</width>
+    <height>756</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>TestQtMat</string>
+  </property>
+  <widget class="MatView" name="openGLWidget">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>90</y>
+     <width>512</width>
+     <height>512</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>390</y>
+     <width>331</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(85, 255, 255);
+font: 26pt &quot;Agency FB&quot;;</string>
+   </property>
+   <property name="text">
+    <string>TestQt for opencv</string>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>MatView</class>
+   <extends>QOpenGLWidget</extends>
+   <header>MatView.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="TestQtMat.qrc"/>
+ </resources>
+ <connections/>
+</ui>
