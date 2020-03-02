@@ -92,3 +92,6 @@ OPENCV
 
 29.TestQtMat项目
 使用opencv读取一张图像，并使用Qt的opengl控件进行显示的功能
+
+30.TestOpenCVROI项目
+调用opencv的接口截取图像感兴趣区域
