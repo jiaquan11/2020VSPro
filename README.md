@@ -104,3 +104,6 @@ OPENCV
 
 33.TestOpenCVGAIN项目
 实现opencv的对比度和亮度接口的调用和测试
+
+34.TestOpenCVRESIZE项目
+实现opencv的resize接口及手动实现一个resize接口，及性能对比
