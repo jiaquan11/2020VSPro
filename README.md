@@ -108,8 +108,11 @@ OPENCV
 34.TestOpenCVRESIZE项目
 实现opencv的resize接口及手动实现一个resize接口，及性能对比
 
-34.TestOpenCVPY项目
+35.TestOpenCVPY项目
 实现opencv的高斯金字塔和拉普拉斯金字塔的接口调用
 
-34.TestOpenCVBLEND项目
+36.TestOpenCVBLEND项目
 实现opencv的图片的混合操作
+
+37.TestOpenCVROTATE项目
+实现opencv的图片的旋转和镜像
