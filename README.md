@@ -101,3 +101,6 @@ OPENCV
 
 32.TestOpenCVBIN项目
 实现opencv的阈值化和反阈值化的接口调用
+
+33.TestOpenCVGAIN项目
+实现opencv的对比度和亮度接口的调用和测试
