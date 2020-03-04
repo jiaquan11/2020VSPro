@@ -110,3 +110,6 @@ OPENCV
 
 34.TestOpenCVPY项目
 实现opencv的高斯金字塔和拉普拉斯金字塔的接口调用
+
+34.TestOpenCVBLEND项目
+实现opencv的图片的混合操作
