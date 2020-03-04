@@ -98,3 +98,6 @@ OPENCV
 
 31.TestOpenCVGRAY项目
 手动实现一个RGB转换灰度图的函数，并和opencv的接口进行性能对比
+
+32.TestOpenCVBIN项目
+实现opencv的阈值化和反阈值化的接口调用
