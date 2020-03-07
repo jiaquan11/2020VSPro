@@ -116,3 +116,6 @@ OPENCV
 
 37.TestOpenCVROTATE项目
 实现opencv的图片的旋转和镜像
+
+38.TestOpenCVMERGE项目
+实现opencv的两张图片的合并
