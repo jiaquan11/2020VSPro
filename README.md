@@ -119,3 +119,6 @@ OPENCV
 
 38.TestOpenCVMERGE项目
 实现opencv的两张图片的合并
+
+39.TestOpenCVVIDEO项目
+实现opencv接口打开一个视频文件并读取解码显示的过程
