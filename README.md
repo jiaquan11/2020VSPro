@@ -122,3 +122,6 @@ OPENCV
 
 39.TestOpenCVVIDEO项目
 实现opencv接口打开一个视频文件并读取解码显示的过程
+
+40.TestOpenCVWRITE项目
+实现opencv接口将摄像头数据数据使用VideoWriter类写入一个新文件
