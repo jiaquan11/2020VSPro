@@ -125,3 +125,7 @@ OPENCV
 
 40.TestOpenCVWRITE项目
 实现opencv接口将摄像头数据数据使用VideoWriter类写入一个新文件
+
+41.XVideoEdit项目
+增加Qt和opencv 基本图像编辑接口的项目，使用opencv的VideoCapture接口打开视频文件，
+并发送图像信号给qt opengl组件进行渲染并图像编辑变化，同时可以进行将编辑后的视频进行导出到本地，调用的是opencv的VideoWriter接口
