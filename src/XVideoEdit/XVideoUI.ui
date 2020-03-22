@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>799</width>
+    <height>764</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -45,7 +45,17 @@ QLabel
 {
 	color:rgb(255, 255, 255);
 	font: 75 12pt &quot;黑体&quot;;
-}</string>
+}
+
+#playBtn{background-color: rgba(255, 255, 255, 0);}
+#playBtn:!hover{image: url(:/XVideoUI/Resources/PlayN.png);}
+#playBtn:hover{image: url(:/XVideoUI/Resources/PlayH.png);}
+#playBtn:pressed{image: url(:/XVideoUI/Resources/PlayP.png);}
+
+#pauseBtn{background-color: rgba(255, 255, 255, 0);}
+#pauseBtn:!hover{image: url(:/XVideoUI/Resources/PauseN.png);}
+#pauseBtn:hover{image: url(:/XVideoUI/Resources/PauseH.png);}
+#pauseBtn:pressed{image: url(:/XVideoUI/Resources/PauseP.png);}</string>
   </property>
   <widget class="QPushButton" name="closeBtn">
    <property name="geometry">
@@ -93,7 +103,7 @@ QLabel
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>370</y>
+     <y>360</y>
      <width>391</width>
      <height>22</height>
     </rect>
@@ -108,8 +118,8 @@ QLabel
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>360</x>
-     <y>410</y>
+     <x>400</x>
+     <y>420</y>
      <width>111</width>
      <height>31</height>
     </rect>
@@ -193,6 +203,437 @@ QLabel
     <string>导出</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="playBtn">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>410</y>
+     <width>61</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pauseBtn">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>410</y>
+     <width>91</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>480</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>图像旋转</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="rotate">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>480</y>
+     <width>131</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>90</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>180</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>270</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>510</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>图像镜像</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="flip">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>510</y>
+     <width>131</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>不处理</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>上下镜像</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>左右镜像</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>上下左右镜像</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>540</y>
+     <width>111</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>图像尺寸W,H</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="width">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>540</y>
+     <width>71</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>99999</number>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="height">
+   <property name="geometry">
+    <rect>
+     <x>580</x>
+     <y>540</y>
+     <width>71</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>99999</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>570</y>
+     <width>251</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>图像金字塔(高斯,拉不拉斯)</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="pyUp">
+   <property name="geometry">
+    <rect>
+     <x>580</x>
+     <y>570</y>
+     <width>71</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>100</number>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="pyDown">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>570</y>
+     <width>71</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>100</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>600</y>
+     <width>211</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>图像图像裁剪(x,y,w,h)</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="cx">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>600</y>
+     <width>71</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>99999</number>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="cy">
+   <property name="geometry">
+    <rect>
+     <x>580</x>
+     <y>600</y>
+     <width>71</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>99999</number>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="cw">
+   <property name="geometry">
+    <rect>
+     <x>650</x>
+     <y>600</y>
+     <width>71</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>99999</number>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="ch">
+   <property name="geometry">
+    <rect>
+     <x>720</x>
+     <y>600</y>
+     <width>71</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>99999</number>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="color">
+   <property name="geometry">
+    <rect>
+     <x>640</x>
+     <y>480</y>
+     <width>131</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>RGB图像</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>灰度图</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string/>
+    </property>
+   </item>
+  </widget>
+  <widget class="QPushButton" name="markBtn">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>470</y>
+     <width>111</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>水印(x,y,a)</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="my">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>470</y>
+     <width>71</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>99999</number>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="mx">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>470</y>
+     <width>71</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>99999</number>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="ma">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>470</y>
+     <width>71</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="minimum">
+    <double>0.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>1.000000000000000</double>
+   </property>
+   <property name="value">
+    <double>0.000000000000000</double>
+   </property>
+  </widget>
+  <widget class="XVideoWidget" name="srcvideo2">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>510</y>
+     <width>240</width>
+     <height>180</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="blendBtn">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>700</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>融合</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="ba">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>710</y>
+     <width>71</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="minimum">
+    <double>0.000000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>1.000000000000000</double>
+   </property>
+   <property name="value">
+    <double>0.500000000000000</double>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="mergeBtn">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>710</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>合并</string>
+   </property>
+  </widget>
+  <widget class="QSlider" name="left">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>340</y>
+     <width>391</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>999</number>
+   </property>
+   <property name="value">
+    <number>0</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="QSlider" name="right">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>380</y>
+     <width>391</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>999</number>
+   </property>
+   <property name="value">
+    <number>999</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -234,7 +675,7 @@ QLabel
     </hint>
     <hint type="destinationlabel">
      <x>522</x>
-     <y>-129</y>
+     <y>0</y>
     </hint>
    </hints>
   </connection>
@@ -246,11 +687,11 @@ QLabel
    <hints>
     <hint type="sourcelabel">
      <x>161</x>
-     <y>388</y>
+     <y>378</y>
     </hint>
     <hint type="destinationlabel">
      <x>159</x>
-     <y>799</y>
+     <y>763</y>
     </hint>
    </hints>
   </connection>
@@ -262,7 +703,7 @@ QLabel
    <hints>
     <hint type="sourcelabel">
      <x>217</x>
-     <y>383</y>
+     <y>373</y>
     </hint>
     <hint type="destinationlabel">
      <x>236</x>
@@ -278,7 +719,7 @@ QLabel
    <hints>
     <hint type="sourcelabel">
      <x>294</x>
-     <y>389</y>
+     <y>379</y>
     </hint>
     <hint type="destinationlabel">
      <x>328</x>
@@ -314,7 +755,119 @@ QLabel
     </hint>
     <hint type="destinationlabel">
      <x>684</x>
-     <y>-112</y>
+     <y>0</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>playBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>XVideoUIClass</receiver>
+   <slot>play()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>124</x>
+     <y>423</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>176</x>
+     <y>0</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pauseBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>XVideoUIClass</receiver>
+   <slot>pause()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>204</x>
+     <y>431</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>215</x>
+     <y>0</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>markBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>XVideoUIClass</receiver>
+   <slot>mark()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>36</x>
+     <y>478</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>73</x>
+     <y>-120</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>blendBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>XVideoUIClass</receiver>
+   <slot>blend()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>17</x>
+     <y>720</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>23</x>
+     <y>871</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>mergeBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>XVideoUIClass</receiver>
+   <slot>merge()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>264</x>
+     <y>716</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>260</x>
+     <y>872</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>left</sender>
+   <signal>sliderMoved(int)</signal>
+   <receiver>XVideoUIClass</receiver>
+   <slot>left(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>352</x>
+     <y>349</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>343</x>
+     <y>-80</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>right</sender>
+   <signal>sliderMoved(int)</signal>
+   <receiver>XVideoUIClass</receiver>
+   <slot>right(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>56</x>
+     <y>391</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>88</x>
+     <y>-84</y>
     </hint>
    </hints>
   </connection>
@@ -326,5 +879,12 @@ QLabel
   <slot>setPos(int)</slot>
   <slot>set()</slot>
   <slot>Export()</slot>
+  <slot>play()</slot>
+  <slot>pause()</slot>
+  <slot>mark()</slot>
+  <slot>blend()</slot>
+  <slot>merge()</slot>
+  <slot>left(int)</slot>
+  <slot>right(int)</slot>
  </slots>
 </ui>
