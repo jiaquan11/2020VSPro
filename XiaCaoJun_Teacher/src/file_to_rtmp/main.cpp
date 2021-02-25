@@ -5,6 +5,18 @@ extern "C" {
 #include "libavformat/avformat.h"
 #include <libavutil/time.h>
 }
+
+/**
+ VS项目新项目需要配置的步骤：
+ 1.设置常规-输出目录，如：..\..\bin\win32
+ 2.调试-工作目录，如:..\..\bin\win32
+ 3.C/C++ - 附加包含目录：..\..\include
+ 4.链接-附加库目录: ..\..\lib\win32
+ 5.添加库，下面两种方式多可以
+ */
+ /*添加库有两种方式，一种是项目属性中的链接-输入-附加依赖项中添加相对应的库
+ 第二种就是通过如下的预处理命令添加库
+ */
 #pragma comment(lib, "avformat.lib")
 #pragma comment(lib, "avutil.lib")
 #pragma comment(lib, "avcodec.lib")
@@ -12,6 +24,7 @@ extern "C" {
 int XError(int errNum) {
 	char buf[1024] = { 0 };
 	av_strerror(errNum, buf, sizeof(buf));
+	cout << "error: " << buf << endl;
 	getchar();
 	return -1;
 }
@@ -23,7 +36,7 @@ static double r2d(AVRational r) {
 int main(int argc, char* argv[]) {
 	cout << "file to rtmp test" << endl;
 	char* inUrl = "demo_video.flv";
-	char* outUrl = "rtmp://192.168.174.129/live/";//指定推流路径
+	char* outUrl = "rtmp://172.19.41.65/myapp/mystream";//指定推流路径
 
 	//初始化所有封装和解封装，flv mp4 mov mp3
 	av_register_all();
@@ -38,7 +51,10 @@ int main(int argc, char* argv[]) {
 	//打开文件，解封文件头
 	int ret = avformat_open_input(&ictx, inUrl, 0, 0);
 	if (ret != 0) {
+		cout << "avformat_open_input file " << inUrl << " failed!" << endl;
 		return XError(ret);
+
+
 	}
 	cout << "open file " << inUrl << " Success!" << endl;
 
@@ -47,7 +63,7 @@ int main(int argc, char* argv[]) {
 	if (ret != 0) {
 		return XError(ret);
 	}
-	
+
 	av_dump_format(ictx, 0, inUrl, 0);
 	////////////////////////////////////////////////////////////
 	/////输出流
@@ -118,11 +134,11 @@ int main(int argc, char* argv[]) {
 			AVRational tb = ictx->streams[pkt.stream_index]->time_base;
 			long long now = av_gettime() - startTime;
 			long long dts = 0;
-			dts = pkt.dts *(1000*1000*r2d(tb));//微秒
+			dts = pkt.dts *(1000 * 1000 * r2d(tb));//微秒
 			pkt.pts = pkt.pts *(1000 * 1000 * r2d(tb));//微秒
-			cout << "pts: " << pkt.pts/1000 << " dts: " << dts/1000<<"| ";
+			cout << "pts: " << pkt.pts / 1000 << " dts: " << dts / 1000 << "| ";
 			if (dts > now) {
-				av_usleep(dts-now);
+				av_usleep(dts - now);
 			}
 		}
 		ret = av_interleaved_write_frame(octx, &pkt);//推流
