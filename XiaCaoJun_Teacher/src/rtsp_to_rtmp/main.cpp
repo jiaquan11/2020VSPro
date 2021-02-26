@@ -12,6 +12,7 @@ extern "C" {
 int XError(int errNum) {
 	char buf[1024] = { 0 };
 	av_strerror(errNum, buf, sizeof(buf));
+	cout << "XError: " << buf<<endl;
 	getchar();
 	return -1;
 }
@@ -24,7 +25,7 @@ int main(int argc, char* argv[]) {
 	cout << "file to rtmp test" << endl;
 	//char* inUrl = "demo_video.flv";
 	char* inUrl = "rtsp://test:test123456@192.168.1.64";
-	char* outUrl = "rtmp://192.168.174.129/live/";//指定推流路径
+	char* outUrl = "rtmp://192.168.0.108/myapp/mystream";//指定推流路径
 
 	//初始化所有封装和解封装，flv mp4 mov mp3
 	av_register_all();
@@ -47,6 +48,7 @@ int main(int argc, char* argv[]) {
 	av_dict_set(&opts, key2, val2, 0);
 	int ret = avformat_open_input(&ictx, inUrl, 0, &opts);
 	if (ret != 0) {
+		cout << "avformat_open_input " << inUrl << " failed!" << endl;
 		return XError(ret);
 	}
 	cout << "open file " << inUrl << " Success!" << endl;
@@ -56,7 +58,7 @@ int main(int argc, char* argv[]) {
 	if (ret != 0) {
 		return XError(ret);
 	}
-	
+
 	av_dump_format(ictx, 0, inUrl, 0);
 	////////////////////////////////////////////////////////////
 	/////输出流
@@ -136,7 +138,6 @@ int main(int argc, char* argv[]) {
 		//		av_usleep(dts-now);
 		//	}
 		//}
-
 
 		ret = av_interleaved_write_frame(octx, &pkt);//推流
 		if (ret < 0) {
