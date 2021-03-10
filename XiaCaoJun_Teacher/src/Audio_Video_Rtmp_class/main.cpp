@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 	XController::Get()->Stop();
 	XController::Get()->camIndex = 0;
 	//nginx - rtmp 直播服务器推流url
-	XController::Get()->outUrl = "rtmp://192.168.174.129/live/"; 
+	XController::Get()->outUrl = "rtmp://172.19.41.65/myapp/mystream"; 
 	XController::Get()->Start();
 
 	XController::Get()->wait();

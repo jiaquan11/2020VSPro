@@ -130,3 +130,7 @@ OPENCV
 41.XVideoEdit项目
 增加Qt和opencv 基本图像编辑接口的项目，使用opencv的VideoCapture接口打开视频文件，
 并发送图像信号给qt opengl组件进行渲染并图像编辑变化，同时可以进行将编辑后的视频进行导出到本地，调用的是opencv的VideoWriter接口
+
+42.first_ffmpeg项目
+这是在VS2019中，引入最新手动编译好的x264,x265,fdk-aac,ffmpeg库，进行测试的项目，目前只是
+调用ffmepg的简单接口测试

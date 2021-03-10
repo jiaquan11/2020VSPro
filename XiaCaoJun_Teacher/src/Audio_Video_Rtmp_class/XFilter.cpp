@@ -3,11 +3,11 @@
 #include <iostream>
 using namespace std;
 
-XFilter::XFilter(){
+XFilter::XFilter() {
 
 }
 
-XFilter::~XFilter(){
+XFilter::~XFilter() {
 
 }
 
@@ -18,7 +18,7 @@ XFilter* XFilter::Get(XFilterType t) {
 	{
 	case XBILATERAL://Ë«±ßÂË²¨
 		return &xbf;
-	
+
 	default:
 		break;
 	}

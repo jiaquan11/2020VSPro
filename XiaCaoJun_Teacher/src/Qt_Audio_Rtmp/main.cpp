@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 	QCoreApplication a(argc, argv);
 
 	//nginx-rtmp 直播服务器推流url
-	char* outurl = "rtmp://192.168.174.129/live/";
+	char* outurl = "rtmp://172.19.41.65/myapp/mystream";
 
 	//注册所有的封装器
 	av_register_all();
@@ -115,7 +115,6 @@ int main(int argc, char *argv[])
 	ac->channels = channels;
 	ac->channel_layout = av_get_default_channel_layout(channels);
 
-
 	//打开音频编码器
 	ret = avcodec_open2(ac, 0, 0);
 	if (ret != 0) {
@@ -203,7 +202,7 @@ int main(int argc, char *argv[])
 		//timebase pts = sec*timebase.den
 		pcm->pts = apts;
 		apts += av_rescale_q(pcm->nb_samples, { 1, sampleRate }, ac->time_base);
-
+		cout << "apts: " <<apts << " " <<" ac.time_base.num"<<ac->time_base.num<<" ac.time_base.den: "<< ac->time_base.den<< flush;
 		int ret = avcodec_send_frame(ac, pcm);
 		if (ret != 0) continue;
 
@@ -212,7 +211,7 @@ int main(int argc, char *argv[])
 		if (ret != 0) {
 			continue;
 		}
-		cout << pkt.size << " " << flush;
+		//cout << pkt.size << " " << flush;
 
 		//推流
 		pkt.pts = av_rescale_q(pkt.pts, ac->time_base, as->time_base);
