@@ -134,3 +134,6 @@ OPENCV
 42.first_ffmpeg项目
 这是在VS2019中，引入最新手动编译好的x264,x265,fdk-aac,ffmpeg库，进行测试的项目，目前只是
 调用ffmepg的简单接口测试
+
+43.sdl_rgb项目
+在VS2019项目中引入sdl库，并调用SDL的接口渲染一张rgb的图像
