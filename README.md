@@ -140,3 +140,6 @@ OPENCV
 
 44.test_AVFrame项目
 测试ffmpeg的AVFrame结构体的使用，引用计数的讲解
+
+45.xvideo_view_avframe_test项目
+使用SDL渲染YUV图像，同时测试AVFrame的使用
