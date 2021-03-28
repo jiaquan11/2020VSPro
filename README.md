@@ -143,3 +143,6 @@ OPENCV
 
 45.xvideo_view_avframe_test项目
 使用SDL渲染YUV图像，同时测试AVFrame的使用
+
+46.test_sleep_fps项目
+测试c++11和wait的sleep操作耗时
