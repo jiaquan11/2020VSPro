@@ -146,3 +146,6 @@ OPENCV
 
 46.test_sleep_fps项目
 测试c++11和wait的sleep操作耗时
+
+47.xvideo_view_avframe_fps项目
+界面显示fps和并可设置fps控制渲染帧率
