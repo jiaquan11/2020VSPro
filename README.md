@@ -149,3 +149,6 @@ OPENCV
 
 47.xvideo_view_avframe_fps项目
 界面显示fps和并可设置fps控制渲染帧率
+
+48.test_sws_scale项目
+使用ffmpeg进行yuv和rgba相互转换缩放
